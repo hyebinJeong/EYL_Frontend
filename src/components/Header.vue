@@ -1,6 +1,5 @@
 <template>
-  <!-- <header class="bg-white shadow-md"> -->
-    <header class="bg-white">
+  <header class="bg-white shadow-md">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <!-- 왼쪽: 스토어 이름 -->
       <a href="/" class="text-xl font-bold text-gray-800 select-none">EYL</a>
