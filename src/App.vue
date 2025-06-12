@@ -2,6 +2,7 @@
 
 <template>
   <div class="App"></div>
+  <RouterView/>
 </template>
 
 <style scoped>
