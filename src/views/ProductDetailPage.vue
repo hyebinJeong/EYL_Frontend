@@ -15,9 +15,6 @@ console.log('전달된 productId:', productId);
 
 <template>
   <div class="ProductDetailPage py-10 px-6 max-w-5xl mx-auto">
-    <!-- 테스트 코드 -->
-    <h1>ProductDetailpage 작동</h1>
-
     <!-- 자식 컴포넌트(ProductDetail.vue)에 productId를 props로 전달 -->
     <ProductDetail :product-id="productId" />
   </div>
