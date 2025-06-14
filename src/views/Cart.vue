@@ -83,23 +83,24 @@
       </tbody>
     </table>
 
-    <!-- 테두리 박스 안에 총 결제 금액 -->
+    <!-- 총 결제 금액 + 쇼핑 계속하기 버튼을 한 줄에 배치 -->
     <div
-      class="border rounded p-4 mt-5 mb-4 select-none flex justify-end items-center font-bold text-xl border-green-700"
+      class="p-4 mt-5 mb-4 select-none flex justify-between items-center font-bold text-xl border-green-700"
     >
-      <span class="mr-4 min-w-[110px] text-right">총 결제 금액</span>
-      <span class="min-w-[120px] text-right"
-        >{{ totalPrice.toLocaleString() }}원</span
-      >
-    </div>
-
-    <!-- 박스 바깥 하단, 양쪽 정렬 -->
-    <div class="flex justify-between items-center">
+      <!-- 왼쪽 버튼 -->
       <button
         class="px-4 py-2 border border-gray-400 text-gray-700 rounded select-none"
       >
         쇼핑 계속하기
       </button>
+
+      <!-- 오른쪽 총 결제 금액 -->
+      <div class="flex items-center">
+        <span class="mr-4 min-w-[110px] text-right">총 결제 금액</span>
+        <span class="min-w-[120px] text-right">
+          {{ totalPrice.toLocaleString() }}원
+        </span>
+      </div>
     </div>
     <div class="flex justify-center gap-6 mt-6">
       <button
@@ -117,8 +118,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
-const a = 1;
+import { ref, computed, watch } from 'vue'
+const a = 1
 
 const cartItems = ref([
   {
@@ -145,37 +146,37 @@ const cartItems = ref([
     selected: true,
     image: 'https://via.placeholder.com/60',
   },
-]);
+])
 
 const totalPrice = computed(() => {
   return cartItems.value
     .filter(item => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0);
-});
+    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+})
 
-const allSelected = ref(true);
+const allSelected = ref(true)
 
 const toggleAll = () => {
   cartItems.value.forEach(item => {
-    item.selected = allSelected.value;
-  });
-};
+    item.selected = allSelected.value
+  })
+}
 
 watch(
   cartItems,
   () => {
-    allSelected.value = cartItems.value.every(item => item.selected);
+    allSelected.value = cartItems.value.every(item => item.selected)
   },
   { deep: true },
-);
+)
 
 const increase = index => {
-  cartItems.value[index].quantity += 1;
-};
+  cartItems.value[index].quantity += 1
+}
 
 const decrease = index => {
   if (cartItems.value[index].quantity > 1) {
-    cartItems.value[index].quantity -= 1;
+    cartItems.value[index].quantity -= 1
   }
-};
+}
 </script>
