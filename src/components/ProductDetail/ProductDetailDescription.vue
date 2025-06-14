@@ -24,7 +24,7 @@ const product = ref(null);
     <div class="mt-12">
       <div class="py-8">
         <div class="mb-12">
-          <!-- 대표 이미지지 -->
+          <!-- 대표 이미지 -->
           <img
             alt="Product feature highlight: Fresh Orange"
             class="w-full h-auto rounded-lg shadow-md"

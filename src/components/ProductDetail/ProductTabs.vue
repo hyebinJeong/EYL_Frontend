@@ -17,34 +17,29 @@ const emit = defineEmits(['tabChange']);
 const changeTab = tabName => {
   emit('tabChange', tabName);
 };
+
+// 반복 렌더링을 위해 탭 목록 배열 추가
+const tabs = [
+  { name: 'description', label: '상품 상세' },
+  { name: 'review', label: '상품평' },
+];
 </script>
 
 <template>
   <!-- 탭 전체 컨테이너 -->
   <div class="ProductTabs flex border-b">
-    <!-- 상세 설명 탭 버튼 -->
     <button
+      v-for="tab in tabs"
+      :key="tab.name"
       :class="[
         'flex-1 px-4 py-3 text-center transition',
-        selectedTab === 'description'
-          ? 'border-b-2 border-black font-bold text-black'
-          : 'text-500',
+        selectedTab === tab.name
+          ? 'border-b-2 border-black text-black font-bold'
+          : 'text-gray-400 font-normal hover:text-black',
       ]"
-      @click="changeTab('description')"
+      @click="changeTab(tab.name)"
     >
-      상품 상세
-    </button>
-    <!-- 상품평 탭 버튼 -->
-    <button
-      :class="[
-        'flex-1 px-4 py-3 text-center transition',
-        selectedTab === 'review'
-          ? 'border-b-2 border-black font-bold text-black'
-          : 'text-500',
-      ]"
-      @click="changeTab('review')"
-    >
-      상품평
+      {{ tab.label }}
     </button>
   </div>
 </template>
