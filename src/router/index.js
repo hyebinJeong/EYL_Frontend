@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
-// import ProductReviewPage from '@/views/ProductReviewPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,12 +32,6 @@ const router = createRouter({
       name: 'ProductDetail',
       component: ProductDetailPage,
     },
-    // [상세 페이지] 리뷰 탭
-    // {
-    //   path: '/products/:id/reviews',
-    //   name: 'ProductReviewPage',
-    //   component: ProductReviewPage,
-    // },
     // 장바구니 / 주문서
     // { path: '/cart', name: 'Cart', component: Cart },
     // { path: '/orders/new', name: 'OrderForm', component: OrderForm },

@@ -5,7 +5,7 @@ import ProductDetailDescription from './ProductDetailDescription.vue';
 import ProductSummary from './ProductSummary.vue';
 import ProductTabs from './ProductTabs.vue';
 // 리뷰 작업하고 주석 해제제
-// import ProductReviewPage from './ProductReviewPage.vue';
+import ProductReviewPage from './ProductReviewPage.vue';
 
 // 부모인 ProductDetailPage.vue에서 받은 productId props
 const props = defineProps(['productId']);
@@ -30,6 +30,10 @@ const changeTab = tab => {
     <!-- 상세설명 탭 내용, 탭에 해당하는 컴포넌트 조건부 렌더링 -->
     <ProductDetailDescription v-if="selectedTab === 'description'" />
     <!-- <ProductReviewPage v-if="selectedTab === 'review'" :product-id="productId" /> -->
+    <ProductReviewPage
+      v-if="selectedTab === 'review'"
+      :product-id="productId"
+    />
   </div>
 </template>
 

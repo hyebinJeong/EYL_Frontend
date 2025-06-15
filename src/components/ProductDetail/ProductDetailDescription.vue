@@ -11,7 +11,7 @@ const product = ref(null);
 // 상품 상세 정보 API 호출 (S3 이미지 포함)
 // onMounted(async () => {
 //   try {
-//     const response = await axios.get('/api/products/${props.productId}');
+//     const response = await axios.get(`/api/products/${props.productId}`);
 //     product.value = response.data;
 //   } catch (error) {
 //     console.error('상품 상세 정보를 불러오는데 실패했습니다.', error);
