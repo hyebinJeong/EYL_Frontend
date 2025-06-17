@@ -1,16 +1,15 @@
+import OrderForm from '@/views/OrderForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import Cart from '@/views/Cart.vue';
+import Home from '@/views/Home.vue';
 // import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // [홈] 전체 상품 목록 페이지 (카테고리 닫힘 상태)
-    // {
-    //   path: '/products',
-    //   name: 'HomeProductList',
-    //   component: ProductListPage,
-    // },
+    // 홈
+    { path: '/', name: 'Home', component: Home },
     // 로그인 / 회원가입
     // { path: '/login', name: 'Login', component: Login },
     // {
