@@ -32,6 +32,12 @@ const router = createRouter({
       name: 'ProductDetail',
       component: ProductDetailPage,
     },
+    // [상품 목록 페이지] (category, sort, tag 필터 포함)
+    {
+      path: '/product-list',
+      name: 'ProductList',
+      component: ProductListPage,
+    },
     // 장바구니 / 주문서
     // { path: '/cart', name: 'Cart', component: Cart },
     // { path: '/orders/new', name: 'OrderForm', component: OrderForm },
