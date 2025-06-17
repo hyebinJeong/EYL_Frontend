@@ -1,11 +1,14 @@
 import OrderForm from '@/views/OrderForm.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import Cart from '@/views/Cart.vue'
+import Home from '@/views/Home.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     // 홈
-    //{ path: '/', name: 'Home', component: Home },
+    { path: '/', name: 'Home', component: Home },
+
     // 로그인 / 회원가입
     // { path: '/login', name: 'Login', component: Login },
     // {
@@ -15,7 +18,8 @@ const router = createRouter({
     // },
     // { path: '/signup/user', name: 'UserSignup', component: UserSignup },
     // { path: '/signup/seller', name: 'SellerSignup', component: SellerSignup },
-    // // 상품 목록 (기본, 카테고리, 필터/정렬 모두 이 컴포넌트 하나로 처리)
+
+    // 상품 목록 (기본, 카테고리, 필터/정렬 모두 이 컴포넌트 하나로 처리)
     // {
     //   path: '/products',
     //   name: 'ProductList',
@@ -26,20 +30,23 @@ const router = createRouter({
     //   name: 'ProductCategory',
     //   component: ProductList,
     // },
-    // // 상품 상세 페이지 - 기본(설명)
+
+    // 상품 상세 페이지 - 기본(설명)
     // {
     //   path: '/products/:id',
     //   name: 'ProductDetail',
     //   component: ProductDetail,
     // },
+
     // // 상품 상세 페이지 - 리뷰 탭
     // {
     //   path: '/products/:id/reviews',
     //   name: 'ProductReviews',
     //   component: ProductReviews,
     // },
+
     // 장바구니 / 주문서
-    //{ path: '/cart', name: 'Cart', component: Cart },
+    { path: '/cart', name: 'Cart', component: Cart },
     { path: '/orders/new', name: 'OrderForm', component: OrderForm },
 
     // 마이페이지
