@@ -4,11 +4,7 @@
   <div class="min-h-screen flex justify-center items-center relative">
     <!-- 홈으로 이동하는 EYL 텍스트 (왼쪽 상단 고정) -->
     <RouterLink to="/">
-      <h2
-        class="text-5xl font-bold absolute top-8 left-8 "
-      >
-        EYL
-      </h2>
+      <!-- <h2 class="text-5xl font-bold absolute top-8 left-8 "> EYL</h2> -->
     </RouterLink>
 
     <!-- 흰색 박스 영역: 이미지 + 버튼 포함 -->

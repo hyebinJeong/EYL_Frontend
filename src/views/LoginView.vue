@@ -1,7 +1,7 @@
 <template>
   <div class="p-8">
      <RouterLink to="/" >
-    <h2 class="text-5xl font-bold mb-6 text text-black-600">EYL</h2>      
+    <!-- <h2 class="text-5xl font-bold mb-6 text text-black-600">EYL</h2>       -->
     </RouterLink>
     <LoginForm />
   </div>

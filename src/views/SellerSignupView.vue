@@ -4,11 +4,7 @@
   >
     <!-- 좌상단 로고 -->
     <RouterLink to="/">
-      <h2
-        class="text-5xl font-bold text-black absolute top-8 left-8 select-none"
-      >
-        EYL
-      </h2>
+      <!-- <h2 class="text-5xl font-bold text-black absolute top-8 left-8 select-none"> EYL</h2> -->
     </RouterLink>
 
     <!-- 회원가입 폼 또는 준비중 메시지 박스 -->
@@ -89,21 +85,21 @@
 
 <script setup>
 // Vue의 ref와 onMounted 가져오기
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 
 // showForm이 true면 폼이 보이고, false면 준비중 메시지가 보임
-const showForm = ref(true)
+const showForm = ref(true);
 
 // 컴포넌트가 화면에 보이면(setup 완료되면)
 onMounted(() => {
   // 1초 후에 showForm 값을 false로 바꿔서 준비중 메시지로 전환
   setTimeout(() => {
-    showForm.value = false
-  }, 1000)
-})
+    showForm.value = false;
+  }, 1000);
+});
 
 // 버튼 클릭 시 알림창 띄우는 함수
 function showAlert() {
-  alert('사업자 회원가입 기능은 현재 준비 중입니다.')
+  alert('사업자 회원가입 기능은 현재 준비 중입니다.');
 }
 </script>

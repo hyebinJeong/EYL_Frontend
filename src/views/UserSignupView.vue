@@ -2,7 +2,7 @@
   <div class="min-h-screen relative">
     <!-- 로고 -->
     <RouterLink to="/">
-      <h2 class="text-5xl font-bold mb-6 text-black absolute p-8">EYL</h2>
+      <!-- <h2 class="text-5xl font-bold mb-6 text-black absolute p-8">EYL</h2> -->
     </RouterLink>
 
     <!-- 중앙 정렬된 폼 영역 -->
