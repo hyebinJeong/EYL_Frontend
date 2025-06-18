@@ -2,7 +2,7 @@ import OrderForm from '@/views/OrderForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Cart from '@/views/Cart.vue';
 import Home from '@/views/Home.vue';
-// import ProductListPage from '@/views/ProductListPage.vue';
+//import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 const router = createRouter({
@@ -32,14 +32,14 @@ const router = createRouter({
       component: ProductDetailPage,
     },
     // [상품 목록 페이지] (category, sort, tag 필터 포함)
-    {
-      path: '/product-list',
-      name: 'ProductList',
-      component: ProductListPage,
-    },
+    // {
+    //   path: '/product-list',
+    //   name: 'ProductList',
+    //   component: ProductListPage,
+    // },
     // 장바구니 / 주문서
-    // { path: '/cart', name: 'Cart', component: Cart },
-    // { path: '/orders/new', name: 'OrderForm', component: OrderForm },
+    { path: '/cart', name: 'Cart', component: Cart },
+    { path: '/orders/new', name: 'OrderForm', component: OrderForm },
 
     // 마이페이지
     // { path: '/mypage', name: 'MyPageHome', component: MyPageHome },
