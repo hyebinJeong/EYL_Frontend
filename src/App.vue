@@ -1,3 +1,4 @@
+
 <script setup>
 import Header from '@/components/Header.vue'
 </script>
@@ -8,8 +9,3 @@ import Header from '@/components/Header.vue'
     <router-view />
   </div>
 </template>
-
-<style scoped>
-.App {
-}
-</style>
