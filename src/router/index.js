@@ -2,7 +2,7 @@ import OrderForm from '@/views/OrderForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Cart from '@/views/Cart.vue';
 import Home from '@/views/Home.vue';
-// import ProductListPage from '@/views/ProductListPage.vue';
+import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 const router = createRouter({
@@ -31,11 +31,17 @@ const router = createRouter({
       name: 'ProductDetail',
       component: ProductDetailPage,
     },
-    // [상품 목록 페이지] (category, sort, tag 필터 포함)
+    // [카테고리 + 정렬] 상품 목록
     {
       path: '/product-list',
       name: 'ProductList',
       component: ProductListPage,
+    },
+    // [태그 전용] 상품 목록 (신상품, 베스트 등)
+    {
+      path: '/products/tag/:tagName',
+      name: 'TaggedProductList',
+      component: ProductListPage, // 같은 컴포넌트 재사용
     },
     // 장바구니 / 주문서
     // { path: '/cart', name: 'Cart', component: Cart },
