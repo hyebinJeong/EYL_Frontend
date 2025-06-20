@@ -1,14 +1,15 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute(); // 현재 url정보 가져옴 (/products?sort=price_asc)
+const router = useRouter(); // url 변경
 const currentSort = route.query.sort || 'default';
 
+// url 새로 설정해서 화면 상태 변경
 const updateSort = sort => {
   router.push({
-    name: route.name,
-    query: { ...route.query, sort },
+    name: route.name, // 라우트 이름 그대로 유지
+    query: { ...route.query, sort }, // 기존 쿼리에 sort만 바꾸기
   });
 };
 </script>

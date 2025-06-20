@@ -19,29 +19,44 @@ const router = createRouter({
     // },
     // { path: '/signup/user', name: 'UserSignup', component: UserSignup },
     // { path: '/signup/seller', name: 'SellerSignup', component: SellerSignup },
-    // [카테고리 목록] 특정 카테고리별 상품만 보여주는 페이지
-    // {
-    //   path: '/products/category/:category',
-    //   name: 'CategoryProductList',
-    //   component: CategoryProductListPage,
-    // },
-    // [상세 페이지] 기본 설명 탭
+    // [상품 상세 페이지]
+    // 특정 상품의 상세 정보를 조회
     {
-      path: '/products/:id',
+      path: '/products/detail/:id',
       name: 'ProductDetail',
       component: ProductDetailPage,
     },
-    // [카테고리 + 정렬] 상품 목록
+    // [베스트 상품 목록 페이지]
+    // 최근 1개월 판매량 기준으로 인기 상품을 보여줌
     {
-      path: '/product-list',
-      name: 'ProductList',
+      path: '/products/best',
+      name: 'BestProducts',
       component: ProductListPage,
     },
-    // [태그 전용] 상품 목록 (신상품, 베스트 등)
+    // [신상품 목록 페이지]
+    // 출시일 기준으로 최신순으로 정렬된 신상품 리스트
     {
-      path: '/products/tag/:tagName',
-      name: 'TaggedProductList',
-      component: ProductListPage, // 같은 컴포넌트 재사용
+      path: '/products/new',
+      name: 'NewProducts',
+      component: ProductListPage,
+    },
+    // [이달의 과일 페이지]
+    // 현재 달에 출시된 상품만 필터링하여 보여줌
+    {
+      path: '/products/monthly',
+      name: 'MonthlyProducts',
+      component: ProductListPage,
+    },
+    // [카테고리별 상품 목록 페이지]
+    // 카테고리 + 정렬 쿼리 조합을 기반으로 상품 리스트를 보여줌
+    {
+      path: '/products/category/:category',
+      name: 'CategoryProductList',
+      component: ProductListPage,
+      props: route => ({
+        category: route.params.category,
+        sort: route.query.sort || null,
+      }),
     },
     // 장바구니 / 주문서
     // { path: '/cart', name: 'Cart', component: Cart },
