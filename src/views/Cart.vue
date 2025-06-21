@@ -127,7 +127,9 @@ import {
 } from '@/api/cart';
 import { checkStock, createOrder } from '@/api/order';
 import { ref, onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const allSelected = ref(true);
 const cartItems = ref([]);
 
@@ -260,9 +262,10 @@ const orderSelected = async () => {
       return;
     }
 
-    await createOrder({ order_items: orderItems });
-    alert('주문이 완료되었습니다.');
-    await loadCart(); // 주문 후 장바구니 다시 불러오기
+    router.push({
+      name: 'OrderPage', // 라우터에 설정한 이름
+      state: { orderItems }, // 주문할 상품 목록 전달
+    });
   } catch {
     alert('주문 실패');
   }
@@ -301,9 +304,10 @@ const orderAll = async () => {
       return;
     }
 
-    await createOrder({ order_items: orderItems });
-    alert('전체 주문이 완료되었습니다.');
-    await loadCart();
+    router.push({
+      name: 'OrderPage', // 라우터에 설정한 이름
+      state: { orderItems }, // 주문할 상품 목록 전달
+    });
   } catch {
     alert('주문 실패');
   }
