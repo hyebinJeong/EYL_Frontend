@@ -6,6 +6,7 @@
     <!-- 테이블 바로 밑 왼쪽에 선택 상품 삭제 버튼 -->
     <div class="flex justify-start mt-4 mb-4">
       <button
+        @click="deleteSelectedItems"
         class="px-1 py-0.5 border border-gray-400 text-gray-700 rounded select-none"
       >
         선택 삭제
@@ -62,12 +63,11 @@
               >
                 -
               </button>
-              <input
-                type="number"
-                v-model.number="item.quantity"
-                class="w-16 h-10 text-center border-t border-b border-gray-300 text-lg focus:outline-none"
-                min="1"
-              />
+              <div
+                class="w-16 h-10 text-center border-t border-b border-gray-300 text-lg flex items-center justify-center select-none"
+              >
+                {{ item.quantity }}
+              </div>
               <button
                 @click="increase(index)"
                 class="px-3 h-10 border rounded-r select-none flex justify-center items-center text-lg"
@@ -104,11 +104,13 @@
     </div>
     <div class="flex justify-center gap-6 mt-6">
       <button
+        @click="orderSelected"
         class="px-10 py-4 bg-green-600 text-white rounded select-none text-lg font-semibold shadow-lg hover:shadow-xl transition"
       >
         선택 상품 주문
       </button>
       <button
+        @click="orderAll"
         class="px-10 py-4 bg-green-600 text-white rounded select-none text-lg font-semibold shadow-lg hover:shadow-xl transition"
       >
         전체 상품 주문
@@ -118,65 +120,197 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-const a = 1
+import {
+  getCartItems,
+  deleteCartItems,
+  updateCartItemQuantity,
+} from '@/api/cart';
+import { checkStock, createOrder } from '@/api/order';
+import { ref, onMounted, computed, watch } from 'vue';
 
-const cartItems = ref([
-  {
-    id: 1,
-    name: '상품명1',
-    price: 20000,
-    quantity: 1,
-    selected: true,
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 2,
-    name: '상품명2',
-    price: 10000,
-    quantity: 1,
-    selected: true,
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 3,
-    name: '상품명3',
-    price: 10000,
-    quantity: 1,
-    selected: true,
-    image: 'https://via.placeholder.com/60',
-  },
-])
+const allSelected = ref(true);
+const cartItems = ref([]);
 
-const totalPrice = computed(() => {
-  return cartItems.value
-    .filter(item => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-})
+// 1. 장바구니 데이터 가져오기
+const loadCart = async () => {
+  try {
+    const res = await getCartItems();
+    cartItems.value = res.data.map(item => ({
+      id: item.productId,
+      name: item.name,
+      price: item.price,
+      stock: item.stock,
+      quantity: item.quantity,
+      selected: true,
+      image: item.productImage,
+    }));
+  } catch (error) {
+    alert('장바구니 불러오기 실패');
+    console.error(error);
+  }
+};
 
-const allSelected = ref(true)
-
+// 2. 전체 선택 토글
 const toggleAll = () => {
   cartItems.value.forEach(item => {
-    item.selected = allSelected.value
-  })
-}
+    item.selected = allSelected.value;
+  });
+};
 
+// 3. 개별 아이템 선택
 watch(
   cartItems,
   () => {
-    allSelected.value = cartItems.value.every(item => item.selected)
+    allSelected.value =
+      cartItems.value.length > 0 &&
+      cartItems.value.every(item => item.selected);
   },
   { deep: true },
-)
+);
 
-const increase = index => {
-  cartItems.value[index].quantity += 1
-}
+// 4. 총 결제 금액 계산
+const totalPrice = computed(() =>
+  cartItems.value
+    .filter(item => item.selected)
+    .reduce((sum, item) => sum + item.price * item.quantity, 0),
+);
 
-const decrease = index => {
-  if (cartItems.value[index].quantity > 1) {
-    cartItems.value[index].quantity -= 1
+// 5. 수량 증가
+const increase = async index => {
+  const item = cartItems.value[index];
+  if (item.quantity >= item.stock) {
+    alert(`재고가 부족합니다. 최대 ${item.stock}개까지 주문할 수 있습니다.`);
+    return; // 재고 이상으로 증가 불가
   }
-}
+  const newQuantity = item.quantity + 1;
+  try {
+    await updateCartItemQuantity({
+      productId: item.id,
+      quantity: newQuantity,
+    });
+    item.quantity = newQuantity;
+  } catch {
+    alert('수량 변경 실패');
+  }
+};
+
+// 6. 수량 감소
+const decrease = async index => {
+  const item = cartItems.value[index];
+  if (item.quantity > 1) {
+    const newQuantity = item.quantity - 1;
+    try {
+      await updateCartItemQuantity({
+        productId: item.id,
+        quantity: newQuantity,
+      });
+      item.quantity = newQuantity;
+    } catch {
+      alert('수량 변경 실패');
+    }
+  }
+};
+
+// 7. 선택 삭제
+const deleteSelectedItems = async () => {
+  const selectedIds = cartItems.value
+    .filter(item => item.selected)
+    .map(item => item.id);
+  if (selectedIds.length === 0) {
+    alert('삭제할 상품을 선택해주세요');
+    return;
+  }
+  try {
+    await deleteCartItems({ productIds: selectedIds });
+    cartItems.value = cartItems.value.filter(item => !item.selected);
+  } catch {
+    alert('삭제 실패');
+  }
+};
+
+// 8️. 선택 상품 주문
+const orderSelected = async () => {
+  const orderItems = cartItems.value
+    .filter(item => item.selected)
+    .map(item => ({ productId: item.id, quantity: item.quantity }));
+
+  if (orderItems.length === 0) {
+    alert('주문할 상품을 선택해주세요');
+    return;
+  }
+
+  try {
+    const res = await checkStock({ order_items: orderItems });
+    if (!res.data.available) {
+      const items = res.data.insufficient_items || [];
+
+      if (items.length > 0) {
+        const msg = items
+          .map(
+            item =>
+              `${item.product_name} 상품의 재고가 부족합니다. 남은 재고: ${item.stock}개`,
+          )
+          .join('\n');
+
+        alert(msg);
+      } else {
+        alert(res.data.message || '재고가 부족한 상품이 있습니다.');
+      }
+
+      return;
+    }
+
+    await createOrder({ order_items: orderItems });
+    alert('주문이 완료되었습니다.');
+    await loadCart(); // 주문 후 장바구니 다시 불러오기
+  } catch {
+    alert('주문 실패');
+  }
+};
+
+// 9️. 전체 상품 주문
+const orderAll = async () => {
+  const orderItems = cartItems.value.map(item => ({
+    productId: item.id,
+    quantity: item.quantity,
+  }));
+
+  if (orderItems.length === 0) {
+    alert('주문할 상품이 없습니다');
+    return;
+  }
+
+  try {
+    const res = await checkStock({ order_items: orderItems });
+    if (!res.data.available) {
+      const items = res.data.insufficient_items || [];
+
+      if (items.length > 0) {
+        const msg = items
+          .map(
+            item =>
+              `${item.product_name} 상품의 재고가 부족합니다. 남은 재고: ${item.stock}개`,
+          )
+          .join('\n');
+
+        alert(msg);
+      } else {
+        alert(res.data.message || '재고가 부족한 상품이 있습니다.');
+      }
+
+      return;
+    }
+
+    await createOrder({ order_items: orderItems });
+    alert('전체 주문이 완료되었습니다.');
+    await loadCart();
+  } catch {
+    alert('주문 실패');
+  }
+};
+
+// 장바구니 목록 조회 API 연결
+onMounted(async () => {
+  loadCart();
+});
 </script>
