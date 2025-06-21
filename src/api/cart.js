@@ -8,7 +8,7 @@ import api from '.';
 //       product_id: productId,
 //       quantity,
 //     },
-//     { withCredentials: true },
+//     { withCredentials: true }, // 쿠키 인증 필요한 경우만
 //   );
 // 임시 테스트 코드
 export const addToCart = async ({ productId, quantity }) => {
