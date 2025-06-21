@@ -20,23 +20,6 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('all')"
-                    class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
-                  >
-                    <div class="flex items-start gap-3">
-                      <span class="text-lg">🧺</span>
-                      <div>
-                        <p class="text-sm font-semibold text-gray-800">
-                          전체
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li></li>
-                <li>
-                  <a
-                    href="#"
                     @click.prevent="goCategory('citrus')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
@@ -168,13 +151,28 @@
           </li>
 
           <li>
-            <a href="#" @click.prevent="goNew" class="hover:text-[#407536] select-none">신상품</a>
+            <a
+              href="#"
+              @click.prevent="goNew"
+              class="hover:text-[#407536] select-none"
+              >신상품</a
+            >
           </li>
           <li>
-            <a href="#" @click.prevent="goBest" class="hover:text-[#407536] select-none">베스트</a>
+            <a
+              href="#"
+              @click.prevent="goBest"
+              class="hover:text-[#407536] select-none"
+              >베스트</a
+            >
           </li>
           <li>
-            <a href="#" @click.prevent="goMonthly" class="hover:text-[#407536] select-none">이달의 과일</a>
+            <a
+              href="#"
+              @click.prevent="goMonthly"
+              class="hover:text-[#407536] select-none"
+              >이달의 과일</a
+            >
           </li>
         </ul>
       </nav>
@@ -226,30 +224,30 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 function goCart() {
-  router.push('/cart')
+  router.push('/cart');
 }
 
 function goMyPage() {
-  router.push('/mypage')
+  router.push('/mypage');
 }
 
 // 신상품, 베스트, 이달의 과일
 function goNew() {
-  router.push('/products/new')
+  router.push('/products/new');
 }
 function goBest() {
-  router.push('/products/best')
+  router.push('/products/best');
 }
 function goMonthly() {
-  router.push('/products/monthly')
+  router.push('/products/monthly');
 }
 
 // 과일 상세 카테고리
 function goCategory(categoryCode) {
-  router.push(`/products/category/${categoryCode}`)
+  router.push(`/products/category/${categoryCode}`);
 }
 </script>
