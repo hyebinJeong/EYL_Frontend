@@ -128,7 +128,9 @@ import {
 import { checkStock, createOrder } from '@/api/order';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { useOrderStore } from '@/stores/order'; // Pinia 스토어 경로
 
+const orderStore = useOrderStore();
 const router = useRouter();
 const allSelected = ref(true);
 const cartItems = ref([]);
@@ -262,10 +264,10 @@ const orderSelected = async () => {
       return;
     }
 
-    router.push({
-      name: 'OrderPage', // 라우터에 설정한 이름
-      state: { orderItems }, // 주문할 상품 목록 전달
-    });
+    // 1) Pinia store에 선택한 주문 상품 저장
+    orderStore.setOrderItems(orderItems);
+
+    router.push({ name: 'OrderPage' });
   } catch {
     alert('주문 실패');
   }
@@ -304,10 +306,10 @@ const orderAll = async () => {
       return;
     }
 
-    router.push({
-      name: 'OrderPage', // 라우터에 설정한 이름
-      state: { orderItems }, // 주문할 상품 목록 전달
-    });
+    // Pinia store에 전체 주문 상품 저장
+    orderStore.setOrderItems(orderItems);
+
+    router.push({ name: 'OrderPage' });
   } catch {
     alert('주문 실패');
   }
