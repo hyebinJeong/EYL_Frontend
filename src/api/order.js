@@ -1,8 +1,9 @@
-import api from '.';
+import api from '.'; //경로를 정확하게 지정해줘야 추후 협업 때 가독성 향상
+//'.'으로만 쓰면 api에서 문제 시 찾기 힘듬 or 이해하기 힘듬
 
 // 주문 전에 재고 확인 (장바구니 -> 주문 페이지로 이동하기 전)
 export const checkStock = ({ order_items }) => {
-  return api.post('/orders/check-stock', {
+  return api.post('/orders/checkStock', {
     order_items,
   });
 };

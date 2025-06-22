@@ -167,7 +167,7 @@
 </template>
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue';
-import { useOrderStore } from '@/stores/order';
+import { useOrderStore } from '@/stores/orderStore';
 import { getMyInfo, createOrder } from '@/api/order';
 
 const orderStore = useOrderStore();
@@ -215,10 +215,18 @@ function onPhoneInput(e) {
   phone.value = formatPhoneNumber(e.target.value);
 }
 
+// 테스트용 더미 데이터
+const dummyUserInfo = {
+  name: '홍길동',
+  phone: '010-1234-5678',
+  address: '서울특별시 강남구 테헤란로 123',
+};
+
 // 주문자 정보 API 호출해서 세팅
 const loadUserInfo = async () => {
   try {
-    const res = await getMyInfo();
+    //const res = await getMyInfo();
+    const res = { data: dummyUserInfo };
     user.name = res.data.name;
     user.phone = res.data.phone;
     phone.value = user.phone;
