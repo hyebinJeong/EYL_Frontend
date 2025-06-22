@@ -128,7 +128,7 @@ import {
 import { checkStock, createOrder } from '@/api/orderStore';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useOrderStore } from '@/stores/order'; // Pinia 스토어 경로
+import { useOrderStore } from '@/stores/orderStore'; // Pinia 스토어 경로
 
 const orderStore = useOrderStore();
 const router = useRouter();
