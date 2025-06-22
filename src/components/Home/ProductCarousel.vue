@@ -35,7 +35,7 @@ const next = () => {
     <button
       v-if="currentSlide > 0"
       @click="prev"
-      class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border rounded-full shadow p-2 hover:bg-gray-100 block"
+      class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border rounded-full shadow p-2 hover:bg-gray-100 sblock"
     >
       <svg
         class="w-5 h-5 text-gray-600"

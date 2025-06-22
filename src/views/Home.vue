@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-16 pt-8 px-4 max-w-screen-xl mx-auto">
+  <div class="space-y-16 pt-8 px-4 max-w-screen-xl mx-auto pb-16">
     <HomeSection
       title="🔥 베스트 상품 "
       :products="bestProducts"
