@@ -11,6 +11,7 @@ export const mockData = [
     category: 'POMES',
     releaseDate: '2025-06-01',
     sales: 110,
+    stock: 3,
     description: '아삭하고 달콤한 빨간 사과입니다.',
   },
   {
@@ -22,6 +23,7 @@ export const mockData = [
     category: 'BERRIES',
     releaseDate: '2025-06-10',
     sales: 90,
+    stock: 2,
     description: '새콤달콤한 맛이 일품인 청포도입니다.',
   },
   {
@@ -33,6 +35,7 @@ export const mockData = [
     category: 'POMES',
     releaseDate: '2024-05-01',
     sales: 70,
+    stock: 1,
     description: '상큼한 향이 매력적인 청사과입니다.',
   },
   {
@@ -44,6 +47,7 @@ export const mockData = [
     category: 'MELONS',
     releaseDate: '2025-06-15',
     sales: 130,
+    stock: 3,
     description: '달콤한 과즙이 풍부한 고급 메론입니다.',
   },
   {
@@ -55,6 +59,7 @@ export const mockData = [
     category: 'CITRUS',
     releaseDate: '2024-04-20',
     sales: 50,
+    stock: 2,
     description: '상큼한 맛으로 요리에 활용하기 좋은 레몬입니다.',
   },
   {
@@ -66,6 +71,7 @@ export const mockData = [
     category: 'BERRIES',
     releaseDate: '2024-06-18',
     sales: 150,
+    stock: 0,
     description: '씨가 없고 달콤한 사파이어 포도입니다.',
   },
 ];

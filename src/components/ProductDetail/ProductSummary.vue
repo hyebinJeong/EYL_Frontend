@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 // 부모에서 전달된 상품 ID props
 const props = defineProps({
@@ -14,6 +15,15 @@ const props = defineProps({
 
 // 수량 선택 상태
 const quantity = ref(1);
+const router = useRouter();
+
+const goToCart = () => {
+  router.push('/cart');
+};
+
+const goToOrder = () => {
+  router.push('/orders');
+};
 </script>
 
 <template>
@@ -59,14 +69,28 @@ const quantity = ref(1);
             총 수량 {{ quantity }}개 |
             {{ (quantity * product.price).toLocaleString() }}원
           </p>
-          <div class="flex gap-10">
+
+          <!-- 재고가 0일 경우 품절 버튼만 표시 -->
+          <div v-if="product.stock === 0">
+            <button
+              class="w-full bg-gray-400 text-white px-8 py-3 rounded font-semibold cursor-not-allowed"
+              disabled
+            >
+              상품 준비중입니다.
+            </button>
+          </div>
+
+          <!-- 재고가 있을 경우 장바구니 / 구매 버튼 출력 -->
+          <div v-else class="flex gap-10">
             <button
               class="w-1/2 bg-orange-400 text-white px-8 py-3 rounded font-semibold hover:bg-orange-500 transition"
+              @click="goToCart"
             >
               장바구니에 담기
             </button>
             <button
               class="w-1/2 bg-green-600 text-white px-8 py-3 rounded font-semibold hover:bg-green-700 transition"
+              @click="goToOrder"
             >
               바로 구매
             </button>
@@ -75,6 +99,7 @@ const quantity = ref(1);
       </div>
     </template>
 
+    <!-- product가 아직 null일 경우 로딩 메시지 -->
     <template v-else>
       <div class="text-gray-500">상품 정보를 불러오는 중입니다.</div>
     </template>
