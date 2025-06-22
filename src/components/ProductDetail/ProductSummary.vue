@@ -1,31 +1,19 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
 
 // 부모에서 전달된 상품 ID props
-const props = defineProps(['productId']);
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true,
+  },
+});
 
 // 상품 정보 상태
-const product = ref(null);
+// const product = ref(null);
 
 // 수량 선택 상태
 const quantity = ref(1);
-
-// 상품 정보 API 호출
-onMounted(async () => {
-  try {
-    // const response = await axios.get(`/api/products/${props.productId}`);
-    // 아직 데이터가 없어서 임시 데이터로 테스트해보기
-    product.value = {
-      name: 'Orange',
-      price: 10000,
-      imageUrl: '/images/orange.jpg',
-    };
-    // product.value = response.data;
-  } catch (error) {
-    console.error('상품 정보 불러오는 것을 실패했습니다.', error);
-  }
-});
 </script>
 
 <template>
@@ -87,7 +75,6 @@ onMounted(async () => {
       </div>
     </template>
 
-    <!-- 데이터 없을 때 로딩 메시지 -->
     <template v-else>
       <div class="text-gray-500">상품 정보를 불러오는 중입니다.</div>
     </template>
