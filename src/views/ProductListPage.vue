@@ -7,7 +7,6 @@ import {
   getMonthlyProducts,
   getProductsByCategory,
 } from '@/api/product';
-import { addToCart } from '@/api/cart';
 
 import ProductCard from '@/components/ProductList/ProductCard.vue';
 import SortFilter from '@/components/ProductList/SortFilter.vue';
@@ -46,20 +45,15 @@ const fetchProducts = async () => {
 onMounted(fetchProducts);
 watch(() => route.fullPath, fetchProducts); // URL이 바뀔 때마다 다시 요청
 
-const handleAddToCart = async ({ productId, quantity }) => {
-  try {
-    await addToCart({ productId, quantity });
-    const confirmed = confirm('장바구니에 담았습니다. 장바구니로 이동할까요?');
-    if (confirmed) {
-      router.push('/cart');
-    }
-  } catch (err) {
-    if (err.response?.status === 401) {
-      alert('로그인이 필요합니다.');
-      router.push('/login');
-    } else {
-      alert('장바구니 담기에 실패했습니다.');
-    }
+const handleAddToCart = () => {
+  const isLoggedIn =
+    document.cookie.includes('SESSION') ||
+    document.cookie.includes('JSESSIONID');
+
+  if (isLoggedIn) {
+    router.push('/cart');
+  } else {
+    router.push('/login');
   }
 };
 </script>
