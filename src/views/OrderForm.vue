@@ -242,6 +242,24 @@ const loadUserInfo = async () => {
 
 onMounted(() => {
   loadUserInfo();
+
+  // 더미 데이터 (나중에 지우기)
+  orderStore.setOrderItems([
+    {
+      id: 1,
+      name: '망고',
+      price: 10000,
+      quantity: 2,
+      image: 'https://via.placeholder.com/100',
+    },
+    {
+      id: 2,
+      name: '딸기',
+      price: 8000,
+      quantity: 1,
+      image: 'https://via.placeholder.com/100',
+    },
+  ]);
 });
 
 // 결제 버튼
@@ -264,9 +282,12 @@ const handlePayment = async () => {
       deliveryAddress: delivery.address,
     };
 
-    const res = await createOrder(orderData);
+    //const res = await createOrder(orderData);
+
     alert('주문이 성공적으로 완료되었습니다.');
+
     // 주문 완료 후 페이지 이동 등 추가 처리
+    router.push('/');
   } catch (error) {
     alert('주문 처리 중 오류가 발생했습니다.');
     console.error(error);
