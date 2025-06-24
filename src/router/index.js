@@ -11,14 +11,17 @@ import SellerSignupView from '@/views/SellerSignupView.vue'; // 판매자 회원
 // import: 상품/장바구니/주문 관련
 import OrderForm from '@/views/OrderForm.vue';
 import Cart from '@/views/Cart.vue';
-import Home from '@/views/HomeView.vue'; // 임시로 변경 Home -> HomeView
-//import ProductListPage from '@/views/ProductListPage.vue';
+import Home from '@/views/Home.vue';
+import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 // 라우트 배열 정의
 const routes = [
-  // 홈
-  { path: '/', name: 'Home', component: Home },
+  // 홈 - 비회원 홈
+  // { path: '/', name: 'HomeView', component: HomeView }
+
+  // 홈 - 회원/비회원 모두 보이는 홈
+  { path: '/home', name: 'Home', component: Home },
 
   // 로그인 / 회원가입
   { path: '/login', name: 'login', component: LoginView },
@@ -52,43 +55,43 @@ const routes = [
 
   // [상품 상세 페이지]
   // 특정 상품의 상세 정보를 조회
-  // {
-  //   path: '/products/detail/:id',
-  //   name: 'ProductDetail',
-  //   component: ProductDetailPage,
-  // },
+  {
+    path: '/products/detail/:id',
+    name: 'ProductDetail',
+    component: ProductDetailPage,
+  },
   // [베스트 상품 목록 페이지]
   // 최근 1개월 판매량 기준으로 인기 상품을 보여줌
-  // {
-  //   path: '/products/best',
-  //   name: 'BestProducts',
-  //   component: ProductListPage,
-  // },
+  {
+    path: '/products/best',
+    name: 'BestProducts',
+    component: ProductListPage,
+  },
   // [신상품 목록 페이지]
   // 출시일 기준으로 최신순으로 정렬된 신상품 리스트
-  // {
-  //   path: '/products/new',
-  //   name: 'NewProducts',
-  //   component: ProductListPage,
-  // },
+  {
+    path: '/products/new',
+    name: 'NewProducts',
+    component: ProductListPage,
+  },
   // [이달의 과일 페이지]
   // 현재 달에 출시된 상품만 필터링하여 보여줌
-  // {
-  //   path: '/products/monthly',
-  //   name: 'MonthlyProducts',
-  //   component: ProductListPage,
-  // },
+  {
+    path: '/products/monthly',
+    name: 'MonthlyProducts',
+    component: ProductListPage,
+  },
   // [카테고리별 상품 목록 페이지]
   // 카테고리 + 정렬 쿼리 조합을 기반으로 상품 리스트를 보여줌
-  // {
-  //   path: '/products/category/:category',
-  //   name: 'CategoryProductList',
-  //   component: ProductListPage,
-  //   props: route => ({
-  //     category: route.params.category,
-  //     sort: route.query.sort || null,
-  //   }),
-  // },
+  {
+    path: '/products/category/:category',
+    name: 'CategoryProductList',
+    component: ProductListPage,
+    props: route => ({
+      category: route.params.category,
+      sort: route.query.sort || null,
+    }),
+  },
 ];
 
 // 라우터 인스턴스 생성

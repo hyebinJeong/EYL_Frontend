@@ -1,5 +1,5 @@
 <template>
-  <div class=" px-60 py-40 flex justify-between items-center">
+  <div class="px-60 py-40 flex justify-between items-center">
     <!-- 왼쪽 텍스트 박스 -->
     <div class="max-w-md">
       <h1 class="text-5xl font-extrabold mb-4 leading-tight">
@@ -8,7 +8,7 @@
         받아보세요.
       </h1>
       <p class="text-gray-600 text-base mb-6 whitespace-pre-line">
-        신선한 상품을 빠르게, 3초안에 받아볼수 있습니다. 그 어디에도 없던<br>
+        신선한 상품을 빠르게, 3초안에 받아볼수 있습니다. 그 어디에도 없던<br />
         신속함과 신선도, 저희가 보장합니다. 지금 바로 EYL을 경험하세요.
       </p>
       <router-link to="/login">
