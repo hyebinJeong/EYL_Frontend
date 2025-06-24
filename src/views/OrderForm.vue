@@ -166,44 +166,35 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
+import { useOrderStore } from '@/stores/orderStore';
+import { getMyInfo, createOrder } from '@/api/order';
 
-const user = {
-  name: '홍길동',
-  phone: '010-1234-5678',
-};
+const orderStore = useOrderStore();
+const orderItems = computed(() => orderStore.orderItems); // 주문 상품 목록 가져오기
 
-const phone = ref(user.phone);
-const orderItems = ref([
-  {
-    id: 1,
-    name: '상품명1',
-    price: 2000,
-    quantity: 1,
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 2,
-    name: '상품명2',
-    price: 20000,
-    quantity: 3,
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 3,
-    name: '상품명3',
-    price: 25000,
-    quantity: 1,
-    image: 'https://via.placeholder.com/60',
-  },
-]);
-
-const totalPrice = computed(() => {
-  return orderItems.value.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
+const user = reactive({
+  name: '',
+  phone: '',
 });
+
+const phone = ref('');
+
+const delivery = reactive({
+  name: '',
+  phone: '',
+  address: '',
+});
+
+// 배송지 정보 상태
+const isEditingDelivery = ref(false);
+
+// 배송지 수정 폼 데이터
+const deliveryForm = reactive({ ...delivery });
+
+const totalPrice = computed(() =>
+  orderItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0),
+);
 
 // 하이픈 자동 삽입 함수 (주문자 연락처)
 function formatPhoneNumber(value) {
@@ -224,16 +215,84 @@ function onPhoneInput(e) {
   phone.value = formatPhoneNumber(e.target.value);
 }
 
-// 배송지 정보 상태
-const isEditingDelivery = ref(false);
-const delivery = reactive({
+// 테스트용 더미 데이터
+const dummyUserInfo = {
   name: '홍길동',
   phone: '010-1234-5678',
-  address: '서울특별시 강남구 역삼동 123-45',
+  address: '서울특별시 강남구 테헤란로 123',
+};
+
+// 주문자 정보 API 호출해서 세팅
+const loadUserInfo = async () => {
+  try {
+    //const res = await getMyInfo();
+    const res = { data: dummyUserInfo };
+    user.name = res.data.name;
+    user.phone = res.data.phone;
+    phone.value = user.phone;
+
+    // 배송지 기본값도 주문자 정보로 초기화 가능
+    delivery.name = user.name;
+    delivery.phone = user.phone;
+    delivery.address = res.data.address || '';
+  } catch (error) {
+    alert('사용자 정보를 불러오는데 실패했습니다.');
+  }
+};
+
+onMounted(() => {
+  loadUserInfo();
+
+  // 더미 데이터 (나중에 지우기)
+  orderStore.setOrderItems([
+    {
+      id: 1,
+      name: '망고',
+      price: 10000,
+      quantity: 2,
+      image: 'https://via.placeholder.com/100',
+    },
+    {
+      id: 2,
+      name: '딸기',
+      price: 8000,
+      quantity: 1,
+      image: 'https://via.placeholder.com/100',
+    },
+  ]);
 });
 
-// 배송지 수정 폼 데이터
-const deliveryForm = reactive({ ...delivery });
+// 결제 버튼
+const handlePayment = async () => {
+  try {
+    if (orderItems.value.length === 0) {
+      alert('주문할 상품이 없습니다.');
+      return;
+    }
+
+    const orderData = {
+      orderItems: orderItems.value.map(item => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+      totalPrice: totalPrice.value,
+      ordererPhone: phone.value,
+      deliveryName: delivery.name,
+      deliveryPhone: delivery.phone,
+      deliveryAddress: delivery.address,
+    };
+
+    //const res = await createOrder(orderData);
+
+    alert('주문이 성공적으로 완료되었습니다.');
+
+    // 주문 완료 후 페이지 이동 등 추가 처리
+    router.push('/');
+  } catch (error) {
+    alert('주문 처리 중 오류가 발생했습니다.');
+    console.error(error);
+  }
+};
 
 // 배송지 휴대폰 하이픈 자동포맷
 function onDeliveryPhoneInput(e) {
@@ -270,13 +329,5 @@ function cancelDeliveryEdit() {
   deliveryForm.phone = delivery.phone;
   deliveryForm.address = delivery.address;
   isEditingDelivery.value = false;
-}
-
-// 결제 버튼
-function handlePayment() {
-  alert('결제 처리 로직');
-  // user_id
-  // order_items (product_id, quantity)
-  // total_price
 }
 </script>
