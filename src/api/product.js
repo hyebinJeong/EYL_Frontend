@@ -1,7 +1,7 @@
 import api from '.';
 
 // 임시 mock 데이터
-const mockData = [
+export const mockData = [
   {
     id: 1,
     name: '레드애플',
@@ -11,6 +11,7 @@ const mockData = [
     category: 'POMES',
     releaseDate: '2025-06-01',
     sales: 110,
+    stock: 3,
     description: '아삭하고 달콤한 빨간 사과입니다.',
   },
   {
@@ -22,6 +23,7 @@ const mockData = [
     category: 'BERRIES',
     releaseDate: '2025-06-10',
     sales: 90,
+    stock: 2,
     description: '새콤달콤한 맛이 일품인 청포도입니다.',
   },
   {
@@ -33,6 +35,7 @@ const mockData = [
     category: 'POMES',
     releaseDate: '2024-05-01',
     sales: 70,
+    stock: 1,
     description: '상큼한 향이 매력적인 청사과입니다.',
   },
   {
@@ -44,6 +47,7 @@ const mockData = [
     category: 'MELONS',
     releaseDate: '2025-06-15',
     sales: 130,
+    stock: 3,
     description: '달콤한 과즙이 풍부한 고급 메론입니다.',
   },
   {
@@ -55,6 +59,7 @@ const mockData = [
     category: 'CITRUS',
     releaseDate: '2024-04-20',
     sales: 50,
+    stock: 2,
     description: '상큼한 맛으로 요리에 활용하기 좋은 레몬입니다.',
   },
   {
@@ -66,9 +71,32 @@ const mockData = [
     category: 'BERRIES',
     releaseDate: '2024-06-18',
     sales: 150,
+    stock: 0,
     description: '씨가 없고 달콤한 사파이어 포도입니다.',
   },
 ];
+
+const descriptionMockMap = {
+  1: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/redapple_detail.jpg',
+  2: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/green_grape_detail.jpg',
+  3: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/greenapple_detail.jpg',
+  4: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/melon_detail.jpg',
+  5: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/lemon_detail.jpg',
+  6: 'https://your-bucket.s3.ap-northeast-2.amazonaws.com/detail/sapphire_grape_detail.jpg',
+};
+
+// 상품 상세 설명 이미지 (단일 URL) 가져오기
+export const getProductDescription = async id => {
+  const url = descriptionMockMap[id];
+  return { data: url };
+};
+
+// 실제 연동용 Axios 예시 (AWS S3 연동 시 사용 예정)
+/*
+export const getProductDescription = (id) => {
+  return api.get(`/products/${id}/description`);
+};
+*/
 
 // 고정 path 기반 API - 의미 있는 상품 섹션은 path로 구분하는 것이 실무적으로 명확
 
@@ -132,4 +160,21 @@ export const getProductsByCategory = (category, sort) =>
 
 // 상품 상세 정보 조회 API
 
-export const getProductDetail = id => api.get(`/products/${id}`);
+// 상품 상세 정보 조회 임시 데이터용 로직
+export const getProductDetail = async id => {
+  const product = mockData.find(p => p.id === parseInt(id));
+  return { data: product };
+};
+
+// 추후 백엔드 연동 시 아래 코드로 교체
+// export const getProductDetail = id => api.get(`/products/${id}`);
+
+// 이미지 기반 상세 설명만 사용할거라 아래 코드는 필요 없지만, 추후 변경을 고려하여 그대로 둠
+// // 상세 설명 API 함수
+// export const getProductDescription = async id => {
+//   const description = descriptionMockMap[id];
+//   return { data: description };
+
+//   // 실제 백엔드 연동 시 아래처럼 대체
+//   // return api.get(`/products/${id}/description`);
+// };

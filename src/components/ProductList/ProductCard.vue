@@ -26,16 +26,27 @@ const goToDetail = () => {
       class="w-full h-52 object-cover cursor-pointer"
       @click="goToDetail"
       @error="e => (e.target.src = '/images/orange.jpg')"
+      :class="{ 'grayscale brightness-50': product.stock === 0 }"
     />
 
-    <!-- 장바구니 담기 버튼 -->
+    <!-- 장바구니 담기 버튼 or 품절 안내 -->
     <div class="p-3 border-t">
-      <button
-        class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
-        @click="$emit('add-to-cart', { productId: product.id, quantity: 1 })"
-      >
-        🛒 담기
-      </button>
+      <template v-if="product.stock > 0">
+        <button
+          class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
+          @click="$emit('add-to-cart', { productId: product.id, quantity: 1 })"
+        >
+          🛒 담기
+        </button>
+      </template>
+      <template v-else>
+        <!-- 재고가 0일 경우 품절 안내 표시 -->
+        <div
+          class="w-full text-sm py-2 border rounded text-center text-gray-400 bg-gray-100 cursor-not-allowed"
+        >
+          상품 준비중입니다.
+        </div>
+      </template>
     </div>
 
     <!-- 상품 이름 등 텍스트 영역 클릭 시에도 상세 페이지로 이동 -->
