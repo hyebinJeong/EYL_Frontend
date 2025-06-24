@@ -125,7 +125,7 @@ import {
   deleteCartItems,
   updateCartItemQuantity,
 } from '@/api/cart';
-import { checkStock, createOrder } from '@/api/orderStore';
+import { checkStock, createOrder } from '@/api/order';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useOrderStore } from '@/stores/orderStore'; // Pinia 스토어 경로
