@@ -20,6 +20,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('citrus')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -38,6 +39,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('berry')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -56,6 +58,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('stone')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -74,6 +77,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('tropical')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -92,6 +96,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('melons')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -110,6 +115,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('pomes')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -126,6 +132,7 @@
                 <li>
                   <a
                     href="#"
+                    @click.prevent="goCategory('other')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -144,13 +151,28 @@
           </li>
 
           <li>
-            <a href="#" class="hover:text-[#407536] select-none">신상품</a>
+            <a
+              href="#"
+              @click.prevent="goNew"
+              class="hover:text-[#407536] select-none"
+              >신상품</a
+            >
           </li>
           <li>
-            <a href="#" class="hover:text-[#407536] select-none">베스트</a>
+            <a
+              href="#"
+              @click.prevent="goBest"
+              class="hover:text-[#407536] select-none"
+              >베스트</a
+            >
           </li>
           <li>
-            <a href="#" class="hover:text-[#407536] select-none">이달의 과일</a>
+            <a
+              href="#"
+              @click.prevent="goMonthly"
+              class="hover:text-[#407536] select-none"
+              >이달의 과일</a
+            >
           </li>
         </ul>
       </nav>
@@ -202,14 +224,30 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 function goCart() {
-  router.push('/cart')
+  router.push('/cart');
 }
 
 function goMyPage() {
-  router.push('/mypage')
+  router.push('/mypage');
+}
+
+// 신상품, 베스트, 이달의 과일
+function goNew() {
+  router.push('/products/new');
+}
+function goBest() {
+  router.push('/products/best');
+}
+function goMonthly() {
+  router.push('/products/monthly');
+}
+
+// 과일 상세 카테고리
+function goCategory(categoryCode) {
+  router.push(`/products/category/${categoryCode}`);
 }
 </script>
