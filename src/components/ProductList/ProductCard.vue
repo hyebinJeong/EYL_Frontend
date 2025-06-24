@@ -9,11 +9,13 @@ const props = defineProps({
   },
 });
 
-defineEmits(['add-to-cart']);
-
 // 상세 페이지로 이동하는 함수 (상품 클릭 시 호출)
 const goToDetail = () => {
   router.push(`/products/detail/${props.product.id}`);
+};
+
+const handleAddToCart = () => {
+  router.push('/cart'); // 로그인 여부는 서버에서 판단
 };
 </script>
 
@@ -34,7 +36,7 @@ const goToDetail = () => {
       <template v-if="product.stock > 0">
         <button
           class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
-          @click="$emit('add-to-cart', { productId: product.id, quantity: 1 })"
+          @click="handleAddToCart"
         >
           🛒 담기
         </button>

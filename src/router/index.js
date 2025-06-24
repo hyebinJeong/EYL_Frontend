@@ -11,14 +11,17 @@ import SellerSignupView from '@/views/SellerSignupView.vue'; // 판매자 회원
 // import: 상품/장바구니/주문 관련
 import OrderForm from '@/views/OrderForm.vue';
 import Cart from '@/views/Cart.vue';
-import Home from '@/views/HomeView.vue'; // 임시로 변경 Home -> HomeView
+import Home from '@/views/Home.vue';
 import ProductListPage from '@/views/ProductListPage.vue';
 import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 // 라우트 배열 정의
 const routes = [
-  // 홈
-  { path: '/', name: 'Home', component: Home },
+  // 홈 - 비회원 홈
+  // { path: '/', name: 'HomeView', component: HomeView }
+
+  // 홈 - 회원/비회원 모두 보이는 홈
+  { path: '/home', name: 'Home', component: Home },
 
   // 로그인 / 회원가입
   { path: '/login', name: 'login', component: LoginView },
