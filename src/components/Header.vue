@@ -20,7 +20,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('citrus')"
+                    @click.prevent="goCategory('CITRUS')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -39,7 +39,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('berry')"
+                    @click.prevent="goCategory('BERRIES')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -58,7 +58,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('stone')"
+                    @click.prevent="goCategory('STONE_FRUITS')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -77,7 +77,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('tropical')"
+                    @click.prevent="goCategory('TROPICAL')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -96,7 +96,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('melons')"
+                    @click.prevent="goCategory('MELONS')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -115,7 +115,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('pomes')"
+                    @click.prevent="goCategory('POMES')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
@@ -132,7 +132,7 @@
                 <li>
                   <a
                     href="#"
-                    @click.prevent="goCategory('other')"
+                    @click.prevent="goCategory('OTHER')"
                     class="block hover:bg-green-50 rounded-xl px-4 py-3 transition"
                   >
                     <div class="flex items-start gap-3">
