@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAddToCart } from '@/composables/useAddToCart';
+import { createOrder } from '@/api/order';
 
 // 부모에서 전달된 상품 ID props
 const props = defineProps({
@@ -10,19 +12,29 @@ const props = defineProps({
   },
 });
 
-// 상품 정보 상태
-// const product = ref(null);
+// 장바구니 추가
+const { addProductToCart } = useAddToCart();
 
 // 수량 선택 상태
 const quantity = ref(1);
 const router = useRouter();
 
-const goToCart = () => {
-  router.push('/cart');
-};
-
-const goToOrder = () => {
-  router.push('/orders');
+const handleOrderNow = async () => {
+  try {
+    await createOrder({
+      user_id: 1, // 임시
+      order_items: [
+        {
+          product_id: props.product.id,
+          quantity: quantity.value,
+        },
+      ],
+    });
+    router.push('/orders/new');
+  } catch (error) {
+    console.error('바로구매 실패:', error);
+    alert('바로구매에 실패했습니다.');
+  }
 };
 </script>
 
@@ -76,7 +88,7 @@ const goToOrder = () => {
               class="w-full bg-gray-400 text-white px-8 py-3 rounded font-semibold cursor-not-allowed"
               disabled
             >
-              상품 준비중입니다.
+              일시 품절입니다.
             </button>
           </div>
 
@@ -84,13 +96,19 @@ const goToOrder = () => {
           <div v-else class="flex gap-10">
             <button
               class="w-1/2 bg-orange-400 text-white px-8 py-3 rounded font-semibold hover:bg-orange-500 transition"
-              @click="goToCart"
+              @click="
+                addProductToCart({
+                  user_id: 1,
+                  product_id: props.product.id,
+                  quantity: quantity.value,
+                })
+              "
             >
               장바구니에 담기
             </button>
             <button
               class="w-1/2 bg-green-600 text-white px-8 py-3 rounded font-semibold hover:bg-green-700 transition"
-              @click="goToOrder"
+              @click="handleOrderNow"
             >
               바로 구매
             </button>
