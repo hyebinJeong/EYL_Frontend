@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, computed  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   getBestProducts,
@@ -23,7 +23,7 @@ const route = useRoute();
 const router = useRouter();
 
 // 정렬 필터 표시 여부 - 카테고리 페이지만 true로 설정
-const showSort = route.name === 'CategoryProductList';
+const showSort = computed(() => route.name === 'CategoryProductList');
 
 const fetchProducts = async () => {
   if (route.name === 'BestProducts') {
