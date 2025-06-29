@@ -1,6 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useAddToCart } from '@/composables/useAddToCart';
+import { ref } from 'vue';
+
+const { addProductToCart } = useAddToCart();
 const router = useRouter();
+const quantity = ref(1);
 
 const props = defineProps({
   product: {
@@ -12,10 +17,6 @@ const props = defineProps({
 // 상세 페이지로 이동하는 함수 (상품 클릭 시 호출)
 const goToDetail = () => {
   router.push(`/products/detail/${props.product.id}`);
-};
-
-const handleAddToCart = () => {
-  router.push('/cart'); // 로그인 여부는 서버에서 판단
 };
 </script>
 
@@ -36,7 +37,13 @@ const handleAddToCart = () => {
       <template v-if="product.stock > 0">
         <button
           class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
-          @click="handleAddToCart"
+          @click="
+            addProductToCart({
+              user_id: 1,
+              product_id: props.product.id,
+              quantity: 1,
+            })
+          "
         >
           🛒 담기
         </button>
@@ -46,7 +53,7 @@ const handleAddToCart = () => {
         <div
           class="w-full text-sm py-2 border rounded text-center text-gray-400 bg-gray-100 cursor-not-allowed"
         >
-          상품 준비중입니다.
+          일시 품절입니다.
         </div>
       </template>
     </div>
