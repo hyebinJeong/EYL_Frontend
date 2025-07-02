@@ -18,7 +18,7 @@ import ProductDetailPage from '@/views/ProductDetailPage.vue';
 // 라우트 배열 정의
 const routes = [
   // 홈 - 비회원 홈
-  // { path: '/', name: 'HomeView', component: HomeView }
+  // { path: '/', name: 'HomeView', component: HomeView } //GuestHome
 
   // 홈 - 회원/비회원 모두 보이는 홈
   { path: '/home', name: 'Home', component: Home },
@@ -98,6 +98,24 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+// 라우터 가드 추가 (로그인 필요 페이지 보호용)
+import { useAuthStore } from '@/stores/authStore';
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  // 보호가 필요한 경로 목록 (로그인 필요)
+  const authRequired = ['/orders/new', '/cart'];
+
+  // 해당 경로로 접근하는데 로그인 상태가 아니면 로그인 페이지로 이동
+  if (authRequired.includes(to.path) && !authStore.isLoggedIn) {
+    alert('로그인이 필요합니다.');
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 // 라우터 export
