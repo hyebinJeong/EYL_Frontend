@@ -244,7 +244,7 @@ const orderSelected = async () => {
   }
 
   try {
-    const res = await checkStock({ order_items: orderItems });
+    const res = await checkStock({ orderItems: orderItems });
     if (!res.data.available) {
       const items = res.data.insufficient_items || [];
 
@@ -286,7 +286,7 @@ const orderAll = async () => {
   }
 
   try {
-    const res = await checkStock({ order_items: orderItems });
+    const res = await checkStock({ orderItems: orderItems });
     if (!res.data.available) {
       const items = res.data.insufficient_items || [];
 
