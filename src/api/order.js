@@ -18,8 +18,3 @@ export const createOrder = orderData => {
   return api.post('/orders', orderData);
 };
 
-// 배송지 저장/수정 (POST /api/orders/:order_id/delivery)
-export const saveOrderDelivery = (orderId, deliveryInfo) => {
-  // deliveryInfo = { name, phone, address }
-  return api.post(`/orders/${orderId}/delivery`, deliveryInfo);
-};

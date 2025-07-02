@@ -216,17 +216,16 @@ function onPhoneInput(e) {
 }
 
 // 테스트용 더미 데이터
-const dummyUserInfo = {
-  name: '홍길동',
-  phone: '010-1234-5678',
-  address: '서울특별시 강남구 테헤란로 123',
-};
+// const dummyUserInfo = {
+//   name: '홍길동',
+//   phone: '010-1234-5678',
+//   address: '서울특별시 강남구 테헤란로 123',
+// };
 
 // 주문자 정보 API 호출해서 세팅
 const loadUserInfo = async () => {
   try {
-    //const res = await getMyInfo();
-    const res = { data: dummyUserInfo };
+    const res = await getMyInfo();
     user.name = res.data.name;
     user.phone = res.data.phone;
     phone.value = user.phone;
@@ -242,24 +241,6 @@ const loadUserInfo = async () => {
 
 onMounted(() => {
   loadUserInfo();
-
-  // 더미 데이터 (나중에 지우기)
-  orderStore.setOrderItems([
-    {
-      id: 1,
-      name: '망고',
-      price: 10000,
-      quantity: 2,
-      image: 'https://via.placeholder.com/100',
-    },
-    {
-      id: 2,
-      name: '딸기',
-      price: 8000,
-      quantity: 1,
-      image: 'https://via.placeholder.com/100',
-    },
-  ]);
 });
 
 // 결제 버튼
@@ -282,7 +263,7 @@ const handlePayment = async () => {
       deliveryAddress: delivery.address,
     };
 
-    //const res = await createOrder(orderData);
+    const res = await createOrder(orderData);
 
     alert('주문이 성공적으로 완료되었습니다.');
 
