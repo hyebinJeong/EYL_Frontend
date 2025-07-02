@@ -1,4 +1,4 @@
-<!-- component/auth/LoginForm.vue -->
+<!-- src/components/auth/LoginForm.vue -->
 <!-- 로그인 폼과 실제 로그인 처리를 담당하는 컴포넌트 -->
 <template>
   <!-- 로그인 카드 박스 -->
@@ -46,18 +46,16 @@
 </template>
 
 <script setup>
-// 로그인 처리 로직 및 라우팅, 상태관리
-
 import { ref } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import { login } from '@/api/auth'; // 로그인 API 호출 함수
-import { useUserStore } from '@/stores/user'; // 사용자 상태 관리
+import { useAuthStore } from '@/stores/authStore'; // 사용자 상태 관리
 
 const email = ref('');
 const password = ref('');
 
 const router = useRouter();
-const userStore = useUserStore();
+const authStore = useAuthStore(); // authStore로 가져옴
 
 // 로그인 처리 함수
 const handleLogin = async () => {
@@ -66,7 +64,7 @@ const handleLogin = async () => {
     await login(email.value, password.value);
 
     // 세션 기반 사용자 정보 불러오기 (Pinia에 저장)
-    await userStore.fetchUser();
+    await authStore.fetchUser(); //  
 
     alert('로그인 성공!');
     router.push('/'); // 홈으로 이동

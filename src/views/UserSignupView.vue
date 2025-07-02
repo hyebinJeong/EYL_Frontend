@@ -1,3 +1,4 @@
+<!-- src/views/UserSignupView.vue -->
 <template>
   <div class="min-h-screen relative">
     <!-- 로고 -->
@@ -211,21 +212,53 @@ const submitForm = () => {
   }
 };
 
-// 닉네임 중복 확인 예시
-const checkNicknameDuplicate = () => {
+// 닉네임 중복 확인 함수
+const checkNicknameDuplicate = async () => {
   if (!nicknameValid.value) {
     alert('닉네임을 올바르게 입력해주세요.');
     return;
   }
+
   alert(`"${nickname.value}" 닉네임 중복검사 완료 (예시)`);
+
+  /*
+  // 실제 API 호출 예시
+  try {
+    const res = await api.get(`/users/check-nickname?nickname=${encodeURIComponent(nickname.value)}`);
+    if (res.data.available) {
+      alert('사용 가능한 닉네임입니다.');
+    } else {
+      alert('이미 사용 중인 닉네임입니다.');
+    }
+  } catch (error) {
+    alert('서버 오류로 닉네임 중복검사를 할 수 없습니다.');
+    console.error(error);
+  }
+  */
 };
 
-// 이메일(아이디) 중복 확인 예시
-const checkUsernameDuplicate = () => {
+// 이메일 중복 확인 함수
+const checkUsernameDuplicate = async () => {
   if (!usernameValid.value) {
     alert('이메일 형식이 올바르지 않습니다.');
     return;
   }
+
   alert(`"${username.value}" 이메일 중복검사 완료 (예시)`);
+
+  /*
+  // 실제 API 호출 예시
+  try {
+    const res = await api.get(`/users/check-email?email=${encodeURIComponent(username.value)}`);
+    if (res.data.available) {
+      alert('사용 가능한 이메일입니다.');
+    } else {
+      alert('이미 사용 중인 이메일입니다.');
+    }
+  } catch (error) {
+    alert('서버 오류로 이메일 중복검사를 할 수 없습니다.');
+    console.error(error);
+  }
+  */
 };
 </script>

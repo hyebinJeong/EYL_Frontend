@@ -1,3 +1,4 @@
+<!-- src/views/LoginView.vue -->
 <!-- 로그인 전체 화면을 구성하는 뷰 컴포넌트 -->
 <template>
   <div class="min-h-screen flex justify-center items-center">
