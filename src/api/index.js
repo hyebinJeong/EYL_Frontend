@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 const api = axios.create({
   baseURL: '/api',
+  timeout: 5000,
   withCredentials: true, // 세션 쿠키 자동 포함
 });
 
@@ -19,7 +20,7 @@ api.interceptors.response.use(
       router.push('/login');
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
