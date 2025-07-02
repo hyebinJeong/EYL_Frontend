@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // import: 로그인/회원가입 관련
-import HomeView from '@/views/HomeView.vue'; // 메인 홈 화면
+import GuestHome from '@/views/GuestHome.vue'; // 메인 홈 화면
 import LoginView from '@/views/LoginView.vue'; // 로그인 화면
 import SignupTypeSelectView from '@/views/SignupTypeSelectView.vue'; // 회원가입 유형 선택 화면
 import UserSignupView from '@/views/UserSignupView.vue'; // 일반 회원가입 폼 화면
@@ -18,7 +18,7 @@ import ProductDetailPage from '@/views/ProductDetailPage.vue';
 // 라우트 배열 정의
 const routes = [
   // 홈 - 비회원 홈
-  // { path: '/', name: 'HomeView', component: HomeView } //GuestHome
+  // { path: '/GuestHome', name: 'GuestHome', component: GuestHome } //GuestHome
 
   // 홈 - 회원/비회원 모두 보이는 홈
   { path: '/home', name: 'Home', component: Home },
