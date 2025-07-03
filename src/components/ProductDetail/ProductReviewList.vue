@@ -36,7 +36,7 @@ const fetchReviews = async () => {
       id: 1,
       reviewer: '이승예',
       rating: 5,
-      content: '상큼하고 신선한 오렌지입니다. 다음에 또 주문할게요.',
+      content: '상큼하고 신선해요. 다음에 또 주문할게요.',
       createdAt: '2025-06-01',
     },
     {
