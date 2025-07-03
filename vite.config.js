@@ -22,7 +22,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir:
-      'C:/Users/seung/Desktop/Project/EYL_Backend/src/main/webapp/resources',
+    outDir: '../EYL_Backend/src/main/webapp/resources',
   },
 });
