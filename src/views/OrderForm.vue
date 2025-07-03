@@ -169,9 +169,14 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useOrderStore } from '@/stores/orderStore';
 import { getMyInfo, createOrder } from '@/api/order';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'vue-router';
 
 const orderStore = useOrderStore();
 const orderItems = computed(() => orderStore.orderItems); // 주문 상품 목록 가져오기
+
+const authStore = useAuthStore();
+const router = useRouter();
 
 const user = reactive({
   name: '',
@@ -239,8 +244,16 @@ const loadUserInfo = async () => {
   }
 };
 
-onMounted(() => {
-  loadUserInfo();
+onMounted(async () => {
+  await authStore.fetchUser(); // 세션 기반 사용자 정보 불러오기
+
+  if (!authStore.isLoggedIn) {
+    alert('로그인이 필요합니다.');
+    router.push('/login'); // 로그인 페이지로 리다이렉트
+    return; // 이 아래 코드 실행 안 되게 막음
+  }
+
+  await loadUserInfo(); // 로그인된 경우에만 사용자 정보 로딩
 });
 
 // 결제 버튼
