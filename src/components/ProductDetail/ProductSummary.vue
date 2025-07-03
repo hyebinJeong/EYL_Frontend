@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAddToCart } from '@/composables/useAddToCart';
 import { createOrder } from '@/api/order';
+import { useAuthStore } from '@/stores/authStore';
 
 // 부모에서 전달된 상품 ID props
 const props = defineProps({
@@ -17,18 +18,36 @@ const { addProductToCart } = useAddToCart();
 
 // 수량 선택 상태
 const quantity = ref(1);
+
 const router = useRouter();
 
+const { isLoggedIn, user } = useAuthStore();
+
+// 장바구니 담기
+const handleAddToCart = () => {
+  if (!isLoggedIn) {
+    alert('로그인이 필요합니다.');
+    router.push(`/login?next=cart`);
+    return;
+  }
+  addProductToCart({
+    user_id: user?.id,
+    product_id: props.product.id,
+    quantity: quantity.value,
+  });
+};
+
+// 바로 구매
 const handleOrderNow = async () => {
+  if (!isLoggedIn) {
+    alert('로그인이 필요합니다.');
+    router.push(`/login?next=orders/new`);
+    return;
+  }
   try {
     await createOrder({
-      user_id: 1, // 임시
-      order_items: [
-        {
-          product_id: props.product.id,
-          quantity: quantity.value,
-        },
-      ],
+      user_id: user?.id,
+      order_items: [{ product_id: props.product.id, quantity: quantity.value }],
     });
     router.push('/orders/new');
   } catch (error) {
@@ -96,13 +115,7 @@ const handleOrderNow = async () => {
           <div v-else class="flex gap-10">
             <button
               class="w-1/2 bg-orange-400 text-white px-8 py-3 rounded font-semibold hover:bg-orange-500 transition"
-              @click="
-                addProductToCart({
-                  user_id: 1,
-                  product_id: props.product.id,
-                  quantity: quantity.value,
-                })
-              "
+              @click="handleAddToCart"
             >
               장바구니에 담기
             </button>
