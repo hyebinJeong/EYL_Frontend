@@ -23,6 +23,5 @@ export default defineConfig({
   },
   build: {
     outDir: '../EYL_Backend/src/main/webapp/resources',
-    emptyOutDir: true,
   },
 });

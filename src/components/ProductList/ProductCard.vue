@@ -1,17 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useAddToCart } from '@/composables/useAddToCart';
-import { useAuthStore } from '@/stores/authStore';
 import { ref } from 'vue';
 
-// 장바구니 composable 함수 (장바구니 API + /cart 이동)
 const { addProductToCart } = useAddToCart();
-
 const router = useRouter();
 const quantity = ref(1);
-
-// Pinia store에서 로그인 여부와 유저 정보만 구조분해로 꺼냄
-const { isLoggedIn, user } = useAuthStore();
 
 const props = defineProps({
   product: {
@@ -23,21 +17,6 @@ const props = defineProps({
 // 상세 페이지로 이동하는 함수 (상품 클릭 시 호출)
 const goToDetail = () => {
   router.push(`/products/detail/${props.product.id}`);
-};
-
-// 장바구니 버튼 클릭 시 로그인 여부 확인 + 처리
-const handleAddToCart = () => {
-  if (!isLoggedIn) {
-    alert('로그인이 필요합니다.');
-    router.push(`/login?next=cart`);
-    return; // 로그인 안되어있으면 함수 즉시 종료
-  }
-  // 로그인 되어있으면 장바구니 담기 실행
-  addProductToCart({
-    user_id: user?.id,
-    product_id: props.product.id,
-    quantity: quantity.value,
-  });
 };
 </script>
 
@@ -58,7 +37,13 @@ const handleAddToCart = () => {
       <template v-if="product.stock > 0">
         <button
           class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
-          @click="handleAddToCart"
+          @click="
+            addProductToCart({
+              user_id: 1,
+              product_id: props.product.id,
+              quantity: 1,
+            })
+          "
         >
           🛒 담기
         </button>
