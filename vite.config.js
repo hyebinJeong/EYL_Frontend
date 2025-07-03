@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/',
+  base: '/resources/',
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
@@ -23,6 +23,6 @@ export default defineConfig({
   },
   build: {
     outDir:
-      '../EYL_Backend/src/main/webapp/resources',
+      'C:/Users/seung/Desktop/Project/EYL_Backend/src/main/webapp/resources',
   },
 });
