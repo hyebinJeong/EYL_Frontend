@@ -245,15 +245,17 @@ const loadUserInfo = async () => {
 };
 
 onMounted(async () => {
-  await authStore.fetchUser(); // 세션 기반 사용자 정보 불러오기
+  await authStore.fetchUser();
 
   if (!authStore.isLoggedIn) {
-    alert('로그인이 필요합니다.');
-    router.push('/login'); // 로그인 페이지로 리다이렉트
-    return; // 이 아래 코드 실행 안 되게 막음
+    const confirmed = confirm('로그인이 필요한 서비스입니다.\n로그인 페이지로 이동할까요?');
+    if (confirmed) {
+      await router.push('/login');
+    }
+    return;
   }
 
-  await loadUserInfo(); // 로그인된 경우에만 사용자 정보 로딩
+  await loadUserInfo();
 });
 
 // 결제 버튼
