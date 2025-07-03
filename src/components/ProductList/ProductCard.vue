@@ -29,7 +29,7 @@ const goToDetail = () => {
 const handleAddToCart = () => {
   if (!isLoggedIn) {
     alert('로그인이 필요합니다.');
-    router.push('/login');
+    router.push(`/login?next=cart`);
     return; // 로그인 안되어있으면 함수 즉시 종료
   }
   // 로그인 되어있으면 장바구니 담기 실행
