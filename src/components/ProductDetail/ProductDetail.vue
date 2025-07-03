@@ -48,7 +48,6 @@ watch(
 <template>
   <div v-if="product" class="productDetail space-y-6">
     <!-- 상품 요약 정보 컴포넌트 : 이미지, 상품명, 가격, 버튼 등 -->
-    <!-- <ProductSummary :product-id="productId" /> -->
     <ProductSummary :product="product" />
 
     <!-- Tab UI (기본 - 상세설명 탭) -->
@@ -61,7 +60,6 @@ watch(
       :product-name="product.name"
     />
 
-    <!-- <ProductReviewPage v-if="selectedTab === 'review'" :product-id="productId" /> -->
     <ProductReviewPage
       v-if="selectedTab === 'review'"
       :product-id="productId"
