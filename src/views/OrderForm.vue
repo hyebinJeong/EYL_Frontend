@@ -279,13 +279,17 @@ const handlePayment = async () => {
     };
 
     const res = await createOrder(orderData);
-
     alert('주문이 성공적으로 완료되었습니다.');
-
     // 주문 완료 후 페이지 이동 등 추가 처리
     router.push('/');
+
   } catch (error) {
-    alert('주문 처리 중 오류가 발생했습니다.');
+    if (error.response && error.response.status === 401) {
+      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      router.push('/login');
+    } else {
+      alert('주문 처리 중 오류가 발생했습니다.');
+    }
     console.error(error);
   }
 };
