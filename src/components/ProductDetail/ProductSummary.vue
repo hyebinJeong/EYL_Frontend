@@ -25,6 +25,9 @@ const { isLoggedIn, user } = useAuthStore();
 
 // 장바구니 담기
 const handleAddToCart = () => {
+  console.log('로그인 상태?', isLoggedIn);
+  console.log('user?', user);
+
   if (!isLoggedIn) {
     alert('로그인이 필요합니다.');
     router.push(`/login?next=cart`);
