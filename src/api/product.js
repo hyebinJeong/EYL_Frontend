@@ -146,14 +146,14 @@ export const getMonthlyProducts = () => api.get('/products/monthly');
 // };
 
 // 추후 백엔드 연동 시 아래 코드로 교체
-export const getProductsByCategory = (category, sort) =>
-  api.get('/products', {
+export const getProductsByCategory = (category, sort) => {
+  return api.get('/products', {
     params: {
       category,
-      ...(sort && { sort }), // sort가 있을 때만 포함
+      ...(sort && { sort }),
     },
   });
-
+};
 // 상품 상세 정보 조회 API
 
 // 상품 상세 정보 조회 임시 데이터용 로직
