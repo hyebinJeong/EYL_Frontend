@@ -58,7 +58,7 @@
             </p>
           </div>
 
-          <!-- 아이디 (이메일 형식으로 변경됨) -->
+          <!-- 아이디 (이메일 형식) -->
           <div>
             <label class="block text-sm font-medium">아이디 (이메일)</label>
             <div class="flex space-x-2 mt-1">
@@ -142,6 +142,35 @@
             </p>
           </div>
 
+          <!-- 주소 -->
+          <div>
+            <label class="block text-sm font-medium">주소</label>
+            <div class="flex space-x-2 mt-1">
+              <input
+                v-model="address"
+                type="text"
+                readonly
+                class="flex-grow border border-gray-400 rounded-full px-4 py-2 outline-none bg-gray-100 cursor-pointer"
+                placeholder="주소를 검색하세요"
+              />
+              <button
+                type="button"
+                @click="openAddressPopup"
+                class="w-24 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold"
+              >
+                검색
+              </button>
+            </div>
+            <p v-if="address">
+              <span v-if="!addressValid" class="text-red-500 text-sm"
+                >주소는 5자 이상이어야 합니다.</span
+              >
+              <span v-else class="text-green-600 text-sm"
+                >사용 가능한 주소입니다.</span
+              >
+            </p>
+          </div>
+
           <!-- 회원가입 버튼 -->
           <div class="flex justify-center mt-6">
             <button
@@ -158,31 +187,31 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-// 라우터
 const router = useRouter();
 
-// 입력값 상태
 const name = ref('');
 const nickname = ref('');
-const username = ref(''); // 이메일 형식으로 사용
+const username = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 const phone = ref('');
+const address = ref('');
 
 // 유효성 검사
 const nameValid = computed(() => name.value.length >= 2);
 const nicknameValid = computed(() => nickname.value.length >= 2);
 const usernameValid = computed(() =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username.value),
-); // 이메일 형식
+);
 const passwordValid = computed(() => password.value.length >= 6);
 const passwordsMatch = computed(() => password.value === passwordConfirm.value);
 const phoneValid = computed(() => /^\d{3}-\d{3,4}-\d{4}$/.test(phone.value));
+const addressValid = computed(() => address.value.length >= 5);
 
-// 전화번호 하이픈 자동 처리
+// 전화번호 자동 하이픈
 const onPhoneInput = e => {
   let val = e.target.value.replace(/\D/g, '');
   if (val.length < 4) {
@@ -195,6 +224,15 @@ const onPhoneInput = e => {
   }
 };
 
+// 다음 주소 팝업
+const openAddressPopup = () => {
+  new window.daum.Postcode({
+    oncomplete: data => {
+      address.value = data.roadAddress || data.jibunAddress;
+    },
+  }).open();
+};
+
 // 제출 처리
 const submitForm = () => {
   if (
@@ -203,7 +241,8 @@ const submitForm = () => {
     usernameValid.value &&
     passwordValid.value &&
     passwordsMatch.value &&
-    phoneValid.value
+    phoneValid.value &&
+    addressValid.value
   ) {
     alert('회원가입이 완료되었습니다!');
     router.push('/login');
@@ -212,53 +251,21 @@ const submitForm = () => {
   }
 };
 
-// 닉네임 중복 확인 함수
+// 닉네임 중복 확인
 const checkNicknameDuplicate = async () => {
   if (!nicknameValid.value) {
     alert('닉네임을 올바르게 입력해주세요.');
     return;
   }
-
   alert(`"${nickname.value}" 닉네임 중복검사 완료 (예시)`);
-
-  /*
-  // 실제 API 호출 예시
-  try {
-    const res = await api.get(`/users/check-nickname?nickname=${encodeURIComponent(nickname.value)}`);
-    if (res.data.available) {
-      alert('사용 가능한 닉네임입니다.');
-    } else {
-      alert('이미 사용 중인 닉네임입니다.');
-    }
-  } catch (error) {
-    alert('서버 오류로 닉네임 중복검사를 할 수 없습니다.');
-    console.error(error);
-  }
-  */
 };
 
-// 이메일 중복 확인 함수
+// 이메일 중복 확인
 const checkUsernameDuplicate = async () => {
   if (!usernameValid.value) {
     alert('이메일 형식이 올바르지 않습니다.');
     return;
   }
-
   alert(`"${username.value}" 이메일 중복검사 완료 (예시)`);
-
-  /*
-  // 실제 API 호출 예시
-  try {
-    const res = await api.get(`/users/check-email?email=${encodeURIComponent(username.value)}`);
-    if (res.data.available) {
-      alert('사용 가능한 이메일입니다.');
-    } else {
-      alert('이미 사용 중인 이메일입니다.');
-    }
-  } catch (error) {
-    alert('서버 오류로 이메일 중복검사를 할 수 없습니다.');
-    console.error(error);
-  }
-  */
 };
 </script>
