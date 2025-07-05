@@ -1,11 +1,14 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useAddToCart } from '@/composables/useAddToCart';
+import { useAuthStore } from '@/stores/authStore';
 import { ref } from 'vue';
 
 const { addProductToCart } = useAddToCart();
 const router = useRouter();
 const quantity = ref(1);
+// auth에서 로그인 정보, user id 받아오기
+const { isLoggedIn, user } = useAuthStore();
 
 const props = defineProps({
   product: {
@@ -14,9 +17,27 @@ const props = defineProps({
   },
 });
 
-// 상세 페이지로 이동하는 함수 (상품 클릭 시 호출)
+// 장바구니 담기
+const handleAddToCart = () => {
+  console.log('로그인 상태?', isLoggedIn);
+  console.log('user?', user);
+
+  if (!isLoggedIn) {
+    alert('로그인이 필요합니다.');
+    router.push(`/login?next=cart`);
+    return;
+  }
+
+  addProductToCart({
+    user_id: user?.id,
+    product_id: props.product.id,
+    quantity: 1,
+  });
+};
+
+// 상세 페이지 이동
 const goToDetail = () => {
-  router.push(`/products/detail/${props.product.id}`);
+  router.push(`/products/detail/${props.product?.id}`);
 };
 </script>
 
@@ -37,13 +58,7 @@ const goToDetail = () => {
       <template v-if="product.stock > 0">
         <button
           class="w-full text-sm py-2 border rounded text-gray-700 hover:bg-gray-100 transition"
-          @click="
-            addProductToCart({
-              user_id: 1,
-              product_id: props.product.id,
-              quantity: 1,
-            })
-          "
+          @click="handleAddToCart"
         >
           🛒 담기
         </button>
@@ -67,7 +82,8 @@ const goToDetail = () => {
         {{ product.description || '맛있고 신선한 과일입니다.' }}
       </p>
       <p class="text-base font-bold text-gray-800">
-        {{ product.price.toLocaleString() }}원
+        <!-- {{ product.price.toLocaleString() }}원 -->
+        {{ product.price ? product.price.toLocaleString() + '원' : '' }}
       </p>
     </div>
   </div>
