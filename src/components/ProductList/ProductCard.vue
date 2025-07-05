@@ -39,17 +39,21 @@ const handleAddToCart = () => {
 const goToDetail = () => {
   router.push(`/products/detail/${props.product?.id}`);
 };
+
+const handleImgError = () => {
+  imgError.value = true;
+};
 </script>
 
 <template>
   <div class="border rounded-lg overflow-hidden shadow-sm bg-white">
     <!--  이미지 클릭 시 상세 페이지로 이동 -->
     <img
-      :src="product.imageUrl"
+      :src="product.productImage"
       :alt="product.name"
       class="w-full h-52 object-cover cursor-pointer"
       @click="goToDetail"
-      @error="e => (e.target.src = '/images/orange.jpg')"
+      @error="handleImgError"
       :class="{ 'grayscale brightness-50': product.stock === 0 }"
     />
 

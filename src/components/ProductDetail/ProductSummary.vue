@@ -69,7 +69,7 @@ const handleOrderNow = async () => {
       <!-- 왼쪽: 이미지 -->
       <div class="w-full max-w-[400px] aspect-square mx-auto md:mx-0">
         <img
-          :src="product.imageUrl"
+          :src="product.productImage"
           :alt="product.name"
           class="w-full h-full object-cover rounded-xl shadow"
         />
