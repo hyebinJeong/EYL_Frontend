@@ -34,7 +34,7 @@ watch(
 
 <template>
   <div class="mt-4">
-    <!-- ✅ 이미지가 있으면 표시 -->
+    <!-- 이미지가 있으면 표시 -->
     <img
       v-if="imageUrl"
       :src="imageUrl"
@@ -42,7 +42,7 @@ watch(
       class="w-full object-cover"
     />
 
-    <!-- ✅ 이미지가 없으면 텍스트 표시 -->
+    <!-- 이미지가 없으면 텍스트 표시 -->
     <p v-else class="text-gray-400 text-sm text-center">
       상세 이미지가 없습니다.
     </p>
