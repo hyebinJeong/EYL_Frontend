@@ -20,6 +20,17 @@ export const signup = (userData) => {
 export const logout = () => {
   return api.post('/users/logout')
 }
+//
+// 닉네임 중복 확인
+export const checkNicknameDuplicate = (nickname) => {
+  return api.get('/users/check-nickname', { params: { nickname } });
+}
+
+// 이메일(아이디) 중복 확인
+export const checkUsernameDuplicate = (email) => {
+  return api.get('/users/check-username', { params: { username: email } });
+}
+//
 
 /**
  * , 로그아웃, 중복체크 등 API도 여기에 정의 
