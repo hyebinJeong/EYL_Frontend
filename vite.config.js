@@ -22,6 +22,8 @@ export default defineConfig({
     },
   },
   build: {
+    // outDir: '../../study_project_2/EYL_Backend/src/main/webapp/resources',
     outDir: '../EYL_Backend/src/main/webapp/resources',
+    emptyOutDir: true, // 이전 빌드 파일 비우고 새로 불러옴
   },
 });
