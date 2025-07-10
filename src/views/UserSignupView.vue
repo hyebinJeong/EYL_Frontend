@@ -2,9 +2,7 @@
 <template>
   <div class="min-h-screen relative">
     <!-- 로고 -->
-    <RouterLink to="/">
-      <!-- <h2 class="text-5xl font-bold mb-6 text-black absolute p-8">EYL</h2> -->
-    </RouterLink>
+    <RouterLink to="/"></RouterLink>
 
     <!-- 중앙 정렬된 폼 영역 -->
     <div class="flex items-center justify-center min-h-screen">
@@ -49,16 +47,22 @@
               </button>
             </div>
             <p v-if="nickname">
-              <span v-if="!nicknameValid" class="text-red-500 text-sm"
-                >닉네임은 2자 이상이어야 합니다.</span
+              <span v-if="!nicknameValid" class="text-red-500 text-sm">
+                닉네임은 2자 이상이어야 합니다.
+              </span>
+              <span
+                v-else-if="isNicknameChecked"
+                class="text-green-600 text-sm"
               >
-              <span v-else class="text-green-600 text-sm"
-                >사용 가능한 닉네임입니다.</span
-              >
+                사용 가능한 닉네임입니다.
+              </span>
+              <span v-else class="text-yellow-600 text-sm">
+                닉네임 중복검사를 진행해주세요.
+              </span>
             </p>
           </div>
 
-          <!-- 아이디 (이메일 형식) -->
+          <!-- 아이디 (이메일) -->
           <div>
             <label class="block text-sm font-medium">아이디 (이메일)</label>
             <div class="flex space-x-2 mt-1">
@@ -76,12 +80,18 @@
               </button>
             </div>
             <p v-if="username">
-              <span v-if="!usernameValid" class="text-red-500 text-sm"
-                >유효한 이메일 형식을 입력하세요.</span
+              <span v-if="!usernameValid" class="text-red-500 text-sm">
+                유효한 이메일 형식을 입력하세요.
+              </span>
+              <span
+                v-else-if="isUsernameChecked"
+                class="text-green-600 text-sm"
               >
-              <span v-else class="text-green-600 text-sm"
-                >사용 가능한 이메일입니다.</span
-              >
+                사용 가능한 이메일입니다.
+              </span>
+              <span v-else class="text-yellow-600 text-sm">
+                이메일 중복검사를 진행해주세요.
+              </span>
             </p>
           </div>
 
@@ -94,12 +104,12 @@
               class="w-full border border-gray-400 rounded-full px-4 py-2 outline-none"
             />
             <p v-if="password">
-              <span v-if="!passwordValid" class="text-red-500 text-sm"
-                >비밀번호는 6자 이상이어야 합니다.</span
-              >
-              <span v-else class="text-green-600 text-sm"
-                >사용 가능한 비밀번호입니다.</span
-              >
+              <span v-if="!passwordValid" class="text-red-500 text-sm">
+                비밀번호는 6자 이상이어야 합니다.
+              </span>
+              <span v-else class="text-green-600 text-sm">
+                사용 가능한 비밀번호입니다.
+              </span>
             </p>
           </div>
 
@@ -112,12 +122,12 @@
               class="w-full border border-gray-400 rounded-full px-4 py-2 outline-none"
             />
             <p v-if="passwordConfirm">
-              <span v-if="!passwordsMatch" class="text-red-500 text-sm"
-                >비밀번호가 일치하지 않습니다.</span
-              >
-              <span v-else class="text-green-600 text-sm"
-                >비밀번호가 일치합니다.</span
-              >
+              <span v-if="!passwordsMatch" class="text-red-500 text-sm">
+                비밀번호가 일치하지 않습니다.
+              </span>
+              <span v-else class="text-green-600 text-sm">
+                비밀번호가 일치합니다.
+              </span>
             </p>
           </div>
 
@@ -133,12 +143,12 @@
               placeholder="숫자만 입력하세요"
             />
             <p v-if="phone">
-              <span v-if="!phoneValid" class="text-red-500 text-sm"
-                >전화번호 형식이 올바르지 않습니다.</span
-              >
-              <span v-else class="text-green-600 text-sm"
-                >올바른 전화번호 형식입니다.</span
-              >
+              <span v-if="!phoneValid" class="text-red-500 text-sm">
+                전화번호 형식이 올바르지 않습니다.
+              </span>
+              <span v-else class="text-green-600 text-sm">
+                올바른 전화번호 형식입니다.
+              </span>
             </p>
           </div>
 
@@ -162,12 +172,12 @@
               </button>
             </div>
             <p v-if="address">
-              <span v-if="!addressValid" class="text-red-500 text-sm"
-                >주소는 5자 이상이어야 합니다.</span
-              >
-              <span v-else class="text-green-600 text-sm"
-                >사용 가능한 주소입니다.</span
-              >
+              <span v-if="!addressValid" class="text-red-500 text-sm">
+                주소는 5자 이상이어야 합니다.
+              </span>
+              <span v-else class="text-green-600 text-sm">
+                사용 가능한 주소입니다.
+              </span>
             </p>
           </div>
 
@@ -187,11 +197,17 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import {
+  signup,
+  checkNicknameDuplicate as apiCheckNickname,
+  checkUsernameDuplicate as apiCheckUsername,
+} from '@/api/auth';
 
 const router = useRouter();
 
+// 입력 값
 const name = ref('');
 const nickname = ref('');
 const username = ref('');
@@ -199,6 +215,10 @@ const password = ref('');
 const passwordConfirm = ref('');
 const phone = ref('');
 const address = ref('');
+
+// 중복검사 상태
+const isNicknameChecked = ref(false);
+const isUsernameChecked = ref(false);
 
 // 유효성 검사
 const nameValid = computed(() => name.value.length >= 2);
@@ -211,7 +231,15 @@ const passwordsMatch = computed(() => password.value === passwordConfirm.value);
 const phoneValid = computed(() => /^\d{3}-\d{3,4}-\d{4}$/.test(phone.value));
 const addressValid = computed(() => address.value.length >= 5);
 
-// 전화번호 자동 하이픈
+// 입력값 변경 시 중복검사 상태 초기화
+watch(nickname, () => {
+  isNicknameChecked.value = false;
+});
+watch(username, () => {
+  isUsernameChecked.value = false;
+});
+
+// 전화번호 자동 하이픈 처리
 const onPhoneInput = e => {
   let val = e.target.value.replace(/\D/g, '');
   if (val.length < 4) {
@@ -224,7 +252,7 @@ const onPhoneInput = e => {
   }
 };
 
-// 다음 주소 팝업
+// 다음 주소 API 팝업
 const openAddressPopup = () => {
   new window.daum.Postcode({
     oncomplete: data => {
@@ -233,8 +261,42 @@ const openAddressPopup = () => {
   }).open();
 };
 
-// 제출 처리
-const submitForm = () => {
+// 닉네임 중복검사
+const checkNicknameDuplicate = async () => {
+  if (!nicknameValid.value) {
+    alert('닉네임을 올바르게 입력해주세요.');
+    return;
+  }
+
+  try {
+    await apiCheckNickname(nickname.value);
+    alert('사용 가능한 닉네임입니다.');
+    isNicknameChecked.value = true;
+  } catch (err) {
+    alert('이미 사용 중인 닉네임입니다.');
+    isNicknameChecked.value = false;
+  }
+};
+
+// 이메일 중복검사
+const checkUsernameDuplicate = async () => {
+  if (!usernameValid.value) {
+    alert('이메일 형식이 올바르지 않습니다.');
+    return;
+  }
+
+  try {
+    await apiCheckUsername(username.value);
+    alert('사용 가능한 이메일입니다.');
+    isUsernameChecked.value = true;
+  } catch (err) {
+    alert('이미 사용 중인 이메일입니다.');
+    isUsernameChecked.value = false;
+  }
+};
+
+// 회원가입 제출
+const submitForm = async () => {
   if (
     nameValid.value &&
     nicknameValid.value &&
@@ -242,30 +304,30 @@ const submitForm = () => {
     passwordValid.value &&
     passwordsMatch.value &&
     phoneValid.value &&
-    addressValid.value
+    addressValid.value &&
+    isNicknameChecked.value &&
+    isUsernameChecked.value
   ) {
-    alert('회원가입이 완료되었습니다!');
-    router.push('/login');
+    try {
+      const userData = {
+        email: username.value,
+        password: password.value,
+        name: name.value,
+        nickname: nickname.value,
+        address: address.value,
+        phone: phone.value,
+        role: 'user',
+      };
+
+      await signup(userData);
+      alert('회원가입이 완료되었습니다!');
+      router.push('/login');
+    } catch (err) {
+      alert('회원가입 중 오류가 발생했습니다.');
+      console.error(err);
+    }
   } else {
-    alert('모든 입력란을 올바르게 작성해주세요.');
+    alert('모든 입력란을 올바르게 작성하고, 중복검사도 완료해주세요.');
   }
-};
-
-// 닉네임 중복 확인
-const checkNicknameDuplicate = async () => {
-  if (!nicknameValid.value) {
-    alert('닉네임을 올바르게 입력해주세요.');
-    return;
-  }
-  alert(`"${nickname.value}" 닉네임 중복검사 완료 (예시)`);
-};
-
-// 이메일 중복 확인
-const checkUsernameDuplicate = async () => {
-  if (!usernameValid.value) {
-    alert('이메일 형식이 올바르지 않습니다.');
-    return;
-  }
-  alert(`"${username.value}" 이메일 중복검사 완료 (예시)`);
 };
 </script>

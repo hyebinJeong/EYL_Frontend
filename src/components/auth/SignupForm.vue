@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { signup } from '@/api/auth' // 회원가입 API 불러오기
 
 const router = useRouter()
-
+// address도 추가 하기
 // 사용자 입력값
 const name = ref('')
 const nickname = ref('')
