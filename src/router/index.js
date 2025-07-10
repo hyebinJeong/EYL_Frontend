@@ -17,8 +17,9 @@ import ProductDetailPage from '@/views/ProductDetailPage.vue';
 
 // 라우트 배열 정의
 const routes = [
-  // 홈 - 비회원 홈
-  // { path: '/GuestHome', name: 'GuestHome', component: GuestHome } //GuestHome
+  // 루트 경로('/') 추가
+  // 1) 방법 1: '/' 경로를 '/home'으로 리다이렉트
+  { path: '/', redirect: '/home' },
 
   // 홈 - 회원/비회원 모두 보이는 홈
   { path: '/home', name: 'Home', component: Home },
@@ -37,7 +38,7 @@ const routes = [
   { path: '/cart', name: 'Cart', component: Cart },
   { path: '/orders/new', name: 'OrderForm', component: OrderForm },
 
-  // 마이페이지
+  // 마이페이지 (주석처리된 상태 유지)
   // { path: '/mypage', name: 'MyPageHome', component: MyPageHome },
   // { path: '/mypage/reviews', name: 'MyReviewList', component: MyReviewList },
   // {
@@ -54,35 +55,30 @@ const routes = [
   // { path: '/mypage/info', name: 'MyInfo', component: MyInfo },
 
   // [상품 상세 페이지]
-  // 특정 상품의 상세 정보를 조회
   {
     path: '/products/detail/:id',
     name: 'ProductDetail',
     component: ProductDetailPage,
   },
   // [베스트 상품 목록 페이지]
-  // 최근 1개월 판매량 기준으로 인기 상품을 보여줌
   {
     path: '/products/best',
     name: 'BestProducts',
     component: ProductListPage,
   },
   // [신상품 목록 페이지]
-  // 출시일 기준으로 최신순으로 정렬된 신상품 리스트
   {
     path: '/products/new',
     name: 'NewProducts',
     component: ProductListPage,
   },
   // [이달의 과일 페이지]
-  // 현재 달에 출시된 상품만 필터링하여 보여줌
   {
     path: '/products/monthly',
     name: 'MonthlyProducts',
     component: ProductListPage,
   },
   // [카테고리별 상품 목록 페이지]
-  // 카테고리 + 정렬 쿼리 조합을 기반으로 상품 리스트를 보여줌
   {
     path: '/products/category/:category',
     name: 'CategoryProductList',
